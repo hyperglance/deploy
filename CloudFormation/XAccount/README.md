@@ -59,7 +59,7 @@ __If deploying using the AWS CLI:__
 
 __That's it - The Hyperglance XAccount role is now deployed in the subscription!__
 
-* [Follow these instructions](https://support.hyperglance.com/knowledge/adding-new-aws-accounts-to-hyperglance#first_account_running_in_aws) to add the account to Hyperglance, using the ARN you have noted down.
+* [Follow these instructions](https://support.hyperglance.com/knowledge/adding-new-aws-accounts-to-hyperglance#first_account_running_in_aws) to add the account to Hyperglance, using the new cross-account ARN you have created.
 
 ## Questions
 
