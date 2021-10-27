@@ -54,7 +54,7 @@ variable "ec2_instance_tags" {
   type        = map(string)
   description = "Custom tags to be merged with var.tags for EC2 instance"
   default = {
-    "Name" = "Hyperglance Deployment"
+    "Name" = "Hyperglance"
   }
 }
 

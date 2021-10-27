@@ -28,29 +28,8 @@ Before you can deploy automations you will need:
 	cd deploy/Terraform/EC2
     ```
 
-5. Create myvars.tfvars file and prepopulate your variables - here's an example:
-    ```bash
-    # myvars.tfvars
-
-    # AWS Region to deploy resources in
-    region = "<AWS region>"
-    
-    # EC2 instance type - https://support.hyperglance.com/knowledge/sizing-guide
-    instance_type = "<instance_type>" # Defaults to t2.large if omitted
-    
-    # EC2 instance custom tags
-    ec2_instance_tags = {"Name" = "<ec2_instance_name>"} # Default to "Name" = "Hyperglance Deployment" if omitted
-
-    # IP CIDR to access Hyperglance instances
-    allow_https_inbound_cidr     = "<your_IP_CIDR>" # UI/API e.g. 1.1.1.1/32
-    allow_ssh_inbound_cidr = "<your_IP_CIDR>"    # SSH e.g. 1.1.1.1/32
-    
-    # EC2 instance parameters
-    key_name = "<ssh_keypair_name>" # Existing SSH Key Pair loaded in AWS
-    
-    subnet_id        = "<AWS subnet ID>" # Existing subnet for EC2 instance to deploy in
-    assign_public_ip = <true/false>              # Assign a public IP address to instance (bool)
-    ```
+5. Edit the myvars.tfvars file included in this directory and populate your variables accordingly
+ 
 6. Deploy the stack:
 	```
 	 terraform init
@@ -68,7 +47,6 @@ Before you can deploy automations you will need:
 	```
  
    *Please allow upto 5 minutes for the EC2 instance to initialize before access the instance*
-	
 
 
 __That's it - Hyperglance is now deployed in your environment and ready for configuration!__
