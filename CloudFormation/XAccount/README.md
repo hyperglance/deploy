@@ -12,10 +12,12 @@ This Cloudformation template deploys an IAM role and associated a policy with th
  arn:aws:iam::123456789012:role/Hyperglance-HGRole-18W6XUMBBF2CA
  ```
 
-*If deploying using the Cloudformation web UI:*
+__If deploying using the Cloudformation web UI:__
+
 2. Cloudformation UI access, in the account you wish to deploy to
 
-*If deploying using the AWS CLI:*
+__If deploying using the AWS CLI:__
+
 2. AWS CLI - [Install instructions](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)
 3. Configure AWS CLI to have a valid login for the account you wish to deploy to - [AWS quick start](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html)
 
