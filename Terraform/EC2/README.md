@@ -28,7 +28,7 @@ Before you can deploy automations you will need:
 	cd deploy/Terraform/EC2
     ```
 
-5. Edit the myvars.tfvars file included in this directory and populate your variables accordingly
+5. Edit the [myvars.tfvars](myvars.tfvars) file included in this directory and populate your variables accordingly
  
 6. Deploy the stack:
 	```
