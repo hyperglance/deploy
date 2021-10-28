@@ -4,7 +4,8 @@
     "Parameters": {
         "HyperglanceRoleARN": {
             "Description": "ARN of the role assigned to the Hyperglance instance",
-            "Type": "String"
+            "Type": "String",
+            "AllowedPattern": "^arn:.+"
         }
     },
     "Resources": {
