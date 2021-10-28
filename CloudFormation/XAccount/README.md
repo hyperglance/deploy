@@ -2,7 +2,7 @@
 
 # Hyperglance cross-account IAM role deployment
 
-This Cloudformation template deploys an IAM role and associated a policy with the [required permissions](https://support.hyperglance.com/knowledge/aws-iam-policy-requirements) to enable Hyperglance to poll resources outside the subscription the instance is hosted in.
+This Cloudformation template deploys an IAM role and associated policy, with the [required permissions](https://support.hyperglance.com/knowledge/aws-iam-policy-requirements) to enable Hyperglance to poll resources outside the subscription the instance is hosted in.
 
 ## Pre-Requisites
 
