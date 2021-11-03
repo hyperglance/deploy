@@ -41,7 +41,7 @@ __If deploying using the AWS CLI:__
 	cd deploy/CloudFormation/EC2
     ```
 
-5. Edit [cli-input.yaml](CloudFormation/EC2/cli-input.yaml) to fit your requirements
+5. Edit [cli-input.yaml](cli-input.yaml) to fit your requirements
 
 6. Deploy the stack:
 
