@@ -1,0 +1,36 @@
+StackName: 'HyperglanceDeployment'  # [REQUIRED] The name that is associated with the stack.
+
+TemplateURL: 'https://hyperglance-deploy-repo-public.s3.amazonaws.com/CloudFormation/EC2/Hyperglance-EC2.json' # Structure containing the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes.
+
+Parameters: # A list of Parameter structures that specify input parameters for the stack.
+- ParameterKey: 'KeyName'  # [REQUIRED] Name of an existing EC2 KeyPair. The Hyperglance instance will launch with this KeyPair.
+  ParameterValue: ''
+- ParameterKey: 'HyperglanceCIDR'  # [REQUIRED] The IP range you are going to connect to Hyperglance from. 
+  ParameterValue: 'x.x.x.x/x' # Must be a valid CIDR range of the form x.x.x.x/x
+- ParameterKey: 'SSHCIDR' # [REQUIRED] The IP range you are going to SSH to the Hyperglance Instance from. 
+  ParameterValue: 'x.x.x.x/x' # Must be a valid CIDR range of the form x.x.x.x/x
+- ParameterKey: 'AssignPublicIP' # [REQUIRED] Assign a Public IP? NOTE: Hyperglance needs to access the AWS API endpoints in order to function.
+  ParameterValue: 'false' # boolean
+- ParameterKey: 'AssignStaticIP' # [REQUIRED] Do you want to assign a Static Private IP?
+  ParameterValue: 'false' # boolean
+- ParameterKey: 'PrivateStaticIP' # Enter in a prviate static IP if wanted (ignored if AssignStaticIP=false)
+  ParameterValue: '10.0.0.1' # Must be a valid IP range of the form x.x.x.x and must be part of the selected subnet range. 
+- ParameterKey: 'Vpcid' # ID of your existing Virtual Private Cloud (VPC) 
+  ParameterValue: '' # e.g. 'vpc-123456abc'
+- ParameterKey: SubnetID # ID of an existing subnet (for the primary network) in your Virtual Private Cloud (VPC)
+  ParameterValue: '' # e.g. subnet-0eb38f44
+
+TimeoutInMinutes: 15 # The amount of time that can pass before the stack status becomes CREATE_FAILED; if DisableRollback is not set or is set to false, the stack will be rolled back.
+
+Capabilities:
+- CAPABILITY_IAM # Required to create IAM roles and policies for EC2 instance
+
+OnFailure: ROLLBACK # Determines what action will be taken if stack creation fails. Valid values are: DO_NOTHING, ROLLBACK, DELETE.
+
+Tags: # Key-value pairs to associate with this stack.
+- Key: 'Description'
+  Value: 'Resources Required by Hyperglance'
+- Key: 'Help'
+  Value: 'https://support.hyperglance.com/'
+- Key: 'Source'
+  Value: 'https://github.com/hyperglance/deploy'
