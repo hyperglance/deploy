@@ -25,7 +25,7 @@ Before you can deploy, you will need:
 4.  Navigate to the terraform deployment directory
 	
 	```
-	cd deploy/Terraform/ECS
+	cd deploy/Terraform/ECS_RDS
     ```
 
 5. Edit the [myvars.tfvars](myvars.tfvars) file included in this directory and populate your variables accordingly
