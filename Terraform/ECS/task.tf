@@ -68,7 +68,8 @@ resource "aws_ecs_task_definition" "hyperglance" {
         { "name" : "RUNNING_IN", "value" : "AWS" },
         { "name" : "MAX_HEAPSIZE", "value" : "${local.MAX_HEAPSIZE}" },
         { "name" : "SAML_ENABLED", "value" : "false" },
-        { "name" : "POSTGRESQL_HOST", "value" : "${local.postgresql_hostname}" }
+        { "name" : "POSTGRESQL_HOST", "value" : "${local.postgresql_hostname}" },
+        { "name" : "_URL", "value" : "${aws_lb.hyperglance.dns_name}" }
       ],
       "dependsOn" : [
         {

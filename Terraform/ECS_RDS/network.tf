@@ -100,11 +100,11 @@ resource "aws_security_group" "alb" {
 
   ingress = [
     {
-      description      = "Allow access to HTTPS"
+      description      = "Allow access to HTTP for redirect"
       from_port        = 80
       to_port          = 80
       protocol         = "tcp"
-      cidr_blocks      = ["86.154.102.38/32"]
+      cidr_blocks      = var.allow_https_inbound_cidr
       ipv6_cidr_blocks = []
       prefix_list_ids  = []
       security_groups  = []
@@ -115,7 +115,7 @@ resource "aws_security_group" "alb" {
       from_port        = 443
       to_port          = 443
       protocol         = "tcp"
-      cidr_blocks      = [var.allow_https_inbound_cidr]
+      cidr_blocks      = var.allow_https_inbound_cidr
       ipv6_cidr_blocks = []
       prefix_list_ids  = []
       security_groups  = []

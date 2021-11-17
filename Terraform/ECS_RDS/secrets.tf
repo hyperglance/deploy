@@ -1,5 +1,5 @@
 resource "aws_secretsmanager_secret" "rds-postgresql-password" {
-  name       = "Hyperglance-PostgreSQL-RDS-Password-${random_string.string.id}"
+  name        = "Hyperglance-PostgreSQL-RDS-Password-${random_string.string.id}"
   description = "Hyperglance DB password"
 }
 

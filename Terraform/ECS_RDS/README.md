@@ -22,7 +22,7 @@ Before you can deploy, you will need:
 	 git clone https://github.com/hyperglance/deploy.git
 	```
 
-4.  Navigate to the terraform deployment directory
+4.  Navigate to the terraform deployment directory 
 	
 	```
 	cd deploy/Terraform/ECS_RDS

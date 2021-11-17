@@ -64,17 +64,18 @@ resource "aws_ecs_task_definition" "hyperglance" {
           "awslogs-stream-prefix" : "hyperglance"
         }
       }
-              "secrets": [
-            {
-                "name": "POSTGRESQL_PASSWORD",
-                "valueFrom": "${aws_secretsmanager_secret.rds-postgresql-password.arn}"
-            }]
+      "secrets" : [
+        {
+          "name" : "POSTGRESQL_PASSWORD",
+          "valueFrom" : "${aws_secretsmanager_secret.rds-postgresql-password.arn}"
+      }]
       "environment" : [
         { "name" : "RUNNING_IN", "value" : "AWS" },
         { "name" : "MAX_HEAPSIZE", "value" : "${local.MAX_HEAPSIZE}" },
         { "name" : "SAML_ENABLED", "value" : "false" },
         { "name" : "POSTGRESQL_HOST", "value" : "${local.postgresql_hostname}" },
-        { "name" : "POSTGRESQL_USERNAME", "value" : "${aws_rds_cluster.postgresql.master_username}" }
+        { "name" : "POSTGRESQL_USERNAME", "value" : "${aws_rds_cluster.postgresql.master_username}" },
+        { "name" : "_URL", "value" : "${aws_lb.hyperglance.dns_name}" }
       ],
       "dependsOn" : [
         {

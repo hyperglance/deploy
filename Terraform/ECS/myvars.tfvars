@@ -9,7 +9,7 @@ region = "<AWS REGION>"
 vpc_id = "<VPC ID>"
 
 # [Required] Security Group: IP CIDR to access Hyperglance instance
-allow_https_inbound_cidr = "<IP CIDR>" # For UI/API access e.g. 1.1.1.1/32
+allow_https_inbound_cidr = ["<IP CIDR 1>","<IP CIDR 2>"] # For UI/API access e.g. ["1.1.1.1/32","1.0.0.1/32"]
 
 ######################################################################
 # ~~~~~~~~~~~~~~~~~~~~ End of required variables~~~~~~~~~~~~~~~~~~~~~#
