@@ -1,6 +1,6 @@
 # Provision R53 private namespace for service discovery
 resource "aws_service_discovery_private_dns_namespace" "hyperglance" {
-  name        = "hyperglance-${random_id.string.id}"
+  name        = "hyperglance-${random_string.string.id}"
   description = "Service discovery private namespace"
   vpc         = var.vpc_id
 }
@@ -37,7 +37,7 @@ resource "aws_service_discovery_service" "postgresql" {
 
 # Allow Hyperglance container to perform DB transactions against Postgres container
 resource "aws_security_group" "postgresql" {
-  name        = "Hyperglance-Postgresql-${random_id.string.id}"
+  name        = "Hyperglance-Postgresql-${random_string.string.id}"
   description = "Allow DB traffic"
   vpc_id      = var.vpc_id
 
@@ -72,7 +72,7 @@ resource "aws_security_group" "postgresql" {
 
 # Allow access to Hyperglance from ALB and AWS APIs
 resource "aws_security_group" "hyperglance" {
-  name        = "Hyperglance-application-${random_id.string.id}"
+  name        = "Hyperglance-application-${random_string.string.id}"
   description = "Hyperglance traffic UI_API + comms to AWS APIs"
   vpc_id      = var.vpc_id
 
@@ -108,7 +108,7 @@ resource "aws_security_group" "hyperglance" {
 
 # Allow Hyperglance and PostgreSQL container to NFS mounts to EFS for persistent storage
 resource "aws_security_group" "efs" {
-  name        = "Hyperglance-EFS-${random_id.string.id}"
+  name        = "Hyperglance-EFS-${random_string.string.id}"
   description = "Allow persistent volumes for ECS using EFS"
   vpc_id      = var.vpc_id
 
@@ -131,7 +131,7 @@ resource "aws_security_group" "efs" {
 
 # Access from ALB to services and expose HTTP + HTTPS to permitted CIDRs
 resource "aws_security_group" "alb" {
-  name        = "Hyperglance-ALB-${random_id.string.id}"
+  name        = "Hyperglance-ALB-${random_string.string.id}"
   description = "Allow access to ALB in front of Hyperglance"
   vpc_id      = var.vpc_id
 

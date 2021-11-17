@@ -1,13 +1,13 @@
 # Create Cloudwatch log group to store logs for Hyperglance
 #tfsec:ignore:aws-cloudwatch-log-group-customer-key
 resource "aws_cloudwatch_log_group" "hyperglance" {
-  name              = "Hyperglance-${random_id.string.id}"
+  name              = "Hyperglance-${random_string.string.id}"
   retention_in_days = 7
 }
 
 # Provision ECS cluster with capacity providers available
 resource "aws_ecs_cluster" "hyperglance" {
-  name               = "Hyperglance-${random_id.string.id}"
+  name               = "Hyperglance-${random_string.string.id}"
   capacity_providers = var.provisioned_capacity_provider
   setting {
     name  = "containerInsights"
