@@ -1,6 +1,6 @@
 # Hyperglance task definition
 resource "aws_ecs_task_definition" "hyperglance" {
-  family                   = "hyperglance-${random_id.string.id}"
+  family                   = "hyperglance-${random_string.string.id}"
   execution_role_arn       = aws_iam_role.hg_task_execution_role.arn # Assign ECS task execution role
   task_role_arn            = aws_iam_role.hg_wildfly_task_role.arn   # Assign task to enable container to poll AWS APIs
   network_mode             = "awsvpc"
