@@ -1,7 +1,7 @@
 # Provision ALB
 #tfsec:ignore:aws-elbv2-alb-not-public
 resource "aws_lb" "hyperglance" {
-  name               = "Hyperglance-ALB-${random_id.string.id}"
+  name               = "Hyperglance-ALB-${random_string.string.id}"
   internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.alb.id]
@@ -13,7 +13,7 @@ resource "aws_lb" "hyperglance" {
 }
 # Provision ALB target group
 resource "aws_lb_target_group" "hyperglance" {
-  name        = "Hyperglance-TG-${random_id.string.id}"
+  name        = "Hyperglance-TG-${random_string.string.id}"
   port        = 8443
   protocol    = "HTTPS"
   target_type = "ip"

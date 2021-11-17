@@ -1,6 +1,6 @@
 # Task execution role for Hyperglance task
 resource "aws_iam_role" "hg_task_execution_role" {
-  name        = "Hyperglance-ECS-TaskExecution-Role-${random_id.string.id}"
+  name        = "Hyperglance-ECS-TaskExecution-Role-${random_string.string.id}"
   description = "Task execution role that the Amazon ECS container agent and the Docker daemon can assume."
   path        = "/"
   assume_role_policy = jsonencode({
@@ -21,7 +21,7 @@ resource "aws_iam_role" "hg_task_execution_role" {
 
 # Task role for Hyperglance task to enable the container to auth with AWS for Hyperglance
 resource "aws_iam_role" "hg_wildfly_task_role" {
-  name        = "Hyperglance-Wildfly-ECS-Task-Role-${random_id.string.id}"
+  name        = "Hyperglance-Wildfly-ECS-Task-Role-${random_string.string.id}"
   description = "IAM role that allows your Amazon ECS container task to make calls to other AWS services."
   path        = "/"
   assume_role_policy = jsonencode({
@@ -41,7 +41,7 @@ resource "aws_iam_role" "hg_wildfly_task_role" {
 }
 
 resource "aws_iam_policy" "hg_task_secrets_policy" {
-  name        = "Hyperglance-ECS-SecretsManager-${random_id.string.id}"
+  name        = "Hyperglance-ECS-SecretsManager-${random_string.string.id}"
   path        = "/"
   description = "Hyperglance allow access to SecretsManager values for PostgreSQL"
   policy = jsonencode({
@@ -77,7 +77,7 @@ resource "aws_iam_role_policy_attachment" "hg_task_secrets" {
 
 #tfsec:ignore:aws-iam-no-policy-wildcards
 resource "aws_iam_policy" "hg_task_policy" {
-  name        = "Hyperglance-Detailed-Read-Policy-${random_id.string.id}"
+  name        = "Hyperglance-Detailed-Read-Policy-${random_string.string.id}"
   path        = "/"
   description = "Hyperglance Detailed Read Policy for task"
   policy = jsonencode({

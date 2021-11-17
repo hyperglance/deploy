@@ -1,6 +1,7 @@
 # Random ID string to reduce likelihood of resource name collision
-resource "random_id" "string" {
-  byte_length = 5
+resource "random_string" "string" {
+  length = 5
+  special = false
 }
 
 resource "random_string" "rds-username" {
