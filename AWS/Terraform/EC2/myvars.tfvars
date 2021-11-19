@@ -3,18 +3,18 @@
 ######################################################################
 
 # [Required] AWS Region to deploy into
-region = "<AWS region>"
+region = "<AWS REGION>"
 
 # [Required] An existing subnet for the Hyperglance EC2 instance
-subnet_id = "<AWS subnet ID>"
+subnet_id = "<VPC SUBNET ID>"
 
 # [Required] Assign a public IP address to the EC2 instance?
 # Use true unless you are using a private subnet deployment option - https://support.hyperglance.com/knowledge/hyperglance-running-in-highly-secure-aws-environments
 assign_public_ip = true
 
 # [Required] Security Group: IP CIDR to access Hyperglance instance
-allow_https_inbound_cidr = "<your_IP_CIDR>" # For UI/API access e.g. 1.1.1.1/32
-allow_ssh_inbound_cidr = "<your_IP_CIDR>"   # For SSH access e.g. 1.1.1.1/32
+allow_https_inbound_cidr = ["<IP CIDR 1>", "<IP CIDR 2>"] # For UI/API access e.g. ["1.1.1.1/32","1.0.0.1/32"]
+allow_ssh_inbound_cidr   = ["<IP CIDR 1>", "<IP CIDR 2>"] # For SSH access e.g. ["1.1.1.1/32","1.0.0.1/32"]
 
 ######################################################################
 # ~~~~~~~~~~~~~~~~~~~~ End of required variables~~~~~~~~~~~~~~~~~~~~~#

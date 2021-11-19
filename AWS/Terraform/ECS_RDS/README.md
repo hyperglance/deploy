@@ -25,7 +25,7 @@ Before you can deploy, you will need:
 4.  Navigate to the terraform deployment directory 
 	
 	```
-	cd deploy/Terraform/ECS_RDS
+	cd deploy/AWS/Terraform/ECS_RDS
     ```
 
 5. Edit the [myvars.tfvars](myvars.tfvars) file included in this directory and populate your variables accordingly
@@ -44,8 +44,17 @@ Before you can deploy, you will need:
 
 __That's it - Hyperglance is now deployed in your environment and ready for configuration!__
 
-* Access the web UI by clicking the link provided by Terraform for alb_address.
+## Login
+
+Login using the hostname of the ALB. Default credentials:
+
+Username: admin  
+Password: admin
+
+__It is highly recommended you [change the password](https://support.hyperglance.com/knowledge/how-to-change-hyperglance-login-password) once you login.__
+
 * Follow our guide [here](https://support.hyperglance.com/knowledge/how-to-apply-a-new-license) to apply your license
+* Follow our guide [here](https://support.hyperglance.com/knowledge/adding-new-aws-accounts-to-hyperglance) to add your first AWS account
 
 ## Pulling updates
 

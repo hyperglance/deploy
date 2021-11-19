@@ -29,3 +29,5 @@ override.tf.json
 terraform.rc
 
 .dccache
+
+bitbucket-pipelines.yml

@@ -18,6 +18,7 @@ resource "aws_iam_role" "hg_role" {
   tags = var.tags
 }
 
+#tfsec:ignore:aws-iam-no-policy-wildcards
 resource "aws_iam_policy" "hg_policy" {
   name        = "HyperglanceXAccountIAMRole"
   path        = "/"

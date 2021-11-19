@@ -27,7 +27,7 @@ __If deploying using the AWS CLI:__
 
 1. Follow the pre-requisite steps above.
 
-2.  [<img src="https://github.com/hyperglance/deploy/blob/master/files/cloudformation-launch-stack.png" alt="Launch Hyperglance Cloudformation stack" />](https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/new?stackName=HyperglanceXAccountIAMRole&templateURL=https://hyperglance-deploy-repo-public.s3.amazonaws.com/CloudFormation/XAccount/Hyperglance-xaccount-role.json) and __populate with the IAM role ARN of the Hyperglance instance__ noted previously and submit the stack for creation
+2.  [<img src="https://github.com/hyperglance/deploy/blob/master/files/cloudformation-launch-stack.png" alt="Launch Hyperglance Cloudformation stack" />](https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/new?stackName=HyperglanceXAccountIAMRole&templateURL=https://hyperglance-deploy-repo-public.s3.amazonaws.com/AWS/CloudFormation/XAccount/Hyperglance-xaccount-role.json) and __populate with the IAM role ARN of the Hyperglance instance__ noted previously and submit the stack for creation
     *Please allow 1-2 minutes for the role to be created by CloudFormation*
 
 3. Note down the ARN of the role created by Cloudformation under the output tab
@@ -44,7 +44,7 @@ __If deploying using the AWS CLI:__
 4.  Navigate to the XAccount deployment directory 
 	
 	```
-	cd deploy/CloudFormation/XAccount
+	cd deploy/AWS/CloudFormation/XAccount
     ```
 
 5. Deploy the stack, __substituting <Hyperglance_instance_role> with the IAM role ARN of the Hyperglance instance__ noted previously:

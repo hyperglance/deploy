@@ -9,6 +9,7 @@ This repository contains Terraform configurations, that deploy an ECS cluster ba
 ## Pre-Requisites
 
 Before you can deploy, you will need:
+
 1. Terraform CLI - [Install instructions](https://learn.hashicorp.com/tutorials/terraform/install-cli)
 2. AWS CLI - [Install instructions](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)
 3. Configure AWS CLI to have a valid login for the account you wish to deploy to - [AWS quick start](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html)
@@ -18,34 +19,46 @@ Before you can deploy, you will need:
 1. Follow the pre-requisite steps above.
 
 2. Clone our repo or [download the zip](https://github.com/hyperglance/deploy/archive/refs/heads/master.zip)
-	```bash
-	 git clone https://github.com/hyperglance/deploy.git
-	```
 
-4.  Navigate to the terraform deployment directory 
-	
-	```
-	cd deploy/Terraform/ECS
-    ```
+ ```bash
+  git clone https://github.com/hyperglance/deploy.git
+ ```
 
-5. Edit the [myvars.tfvars](myvars.tfvars) file included in this directory and populate your variables accordingly
- 
-6. Deploy the stack:
-	```
-	 terraform init
-	 terraform apply -var-file=myvars.tfvars
-	```
+3. Navigate to the terraform deployment directory
+
+ ```bash
+ cd deploy/AWS/Terraform/ECS
+ ```
+
+4. Edit the [myvars.tfvars](myvars.tfvars) file included in this directory and populate your variables accordingly
+
+5. Deploy the stack:
+
+  ```bash
+  terraform init
+  terraform apply -var-file=myvars.tfvars
+  ```
 
 6. Once complete, the following populated values will be returned:
-	```bash
-	alb_address = "<ALB ADDRESS>"
-	note = "Allow 5-10 minutes for the ECS container to become available on the ALB"
-	```
+
+ ```bash
+ alb_address = "<ALB ADDRESS>"
+ note = "Allow 5-10 minutes for the ECS container to become available on the ALB"
+ ```
 
 __That's it - Hyperglance is now deployed in your environment and ready for configuration!__
 
-* Access the web UI by clicking the link provided by Terraform for alb_address.
+## Login
+
+Login using the hostname of the ALB. Default credentials:
+
+Username: admin  
+Password: admin
+
+__It is highly recommended you [change the password](https://support.hyperglance.com/knowledge/how-to-change-hyperglance-login-password) once you login.__
+
 * Follow our guide [here](https://support.hyperglance.com/knowledge/how-to-apply-a-new-license) to apply your license
+* Follow our guide [here](https://support.hyperglance.com/knowledge/adding-new-aws-accounts-to-hyperglance) to add your first AWS account
 
 ## Pulling updates
 
@@ -57,8 +70,9 @@ aws ecs update-service --cluster <cluster name> --service <service name> --force
 
 ## Questions
 
-You can find a wealth of support documents, FAQs and guides on our [website](https://support.hyperglance.com).<br />
+You can find a wealth of support documents, FAQs and guides on our [website](https://support.hyperglance.com).  
 If something isn't right or you need further support, [log a ticket](https://support.hyperglance.com/knowledge/kb-tickets/new) with us and we'll be in touch to assist you.
 
 ## Contributions
+
 Are welcome!

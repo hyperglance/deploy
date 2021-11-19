@@ -23,7 +23,7 @@ __If deploying using the AWS CLI:__
 
 1. Follow the pre-requisite steps above.
 
-2.  [<img src="https://github.com/hyperglance/deploy/blob/master/files/cloudformation-launch-stack.png" alt="Launch Hyperglance Cloudformation stack" />](https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/new?stackName=HyperglanceDeployment&templateURL=https://hyperglance-deploy-repo-public.s3.amazonaws.com/CloudFormation/EC2/Hyperglance-EC2.json) and __populate the parameters when prompted in the UI__.
+2.  [<img src="https://github.com/hyperglance/deploy/blob/master/files/cloudformation-launch-stack.png" alt="Launch Hyperglance Cloudformation stack" />](https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/new?stackName=HyperglanceDeployment&templateURL=https://hyperglance-deploy-repo-public.s3.amazonaws.com/AWS/CloudFormation/EC2/Hyperglance-EC2.json) and __populate the parameters when prompted in the UI__.
     *Please allow upto 5 minutes for the instance to provision*
 
 ## If using the AWS CLI
@@ -38,7 +38,7 @@ __If deploying using the AWS CLI:__
 4.  Navigate to the XAccount deployment directory 
 	
 	```bash
-	cd deploy/CloudFormation/EC2
+	cd deploy/AWS/CloudFormation/EC2
     ```
 
 5. Edit [cli-input.yaml](cli-input.yaml) to fit your requirements

@@ -8,7 +8,7 @@ This repository contains Terraform configurations, that deploy an EC2 instance w
 
 ## Pre-Requisites
 
-Before you can deploy automations you will need:
+Before you can deploy, you will need:
 1. Terraform CLI - [Install instructions](https://learn.hashicorp.com/tutorials/terraform/install-cli)
 2. AWS CLI - [Install instructions](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)
 3. Configure AWS CLI to have a valid login for the account you wish to deploy to - [AWS quick start](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html)
@@ -25,7 +25,7 @@ Before you can deploy automations you will need:
 4.  Navigate to the terraform deployment directory 
 	
 	```
-	cd deploy/Terraform/EC2
+	cd deploy/AWS/Terraform/EC2
     ```
 
 5. Edit the [myvars.tfvars](myvars.tfvars) file included in this directory and populate your variables accordingly
@@ -46,13 +46,22 @@ Before you can deploy automations you will need:
     public_ip            = "https://<public_ip>"
 	```
  
-   *Please allow upto 5 minutes for the EC2 instance to initialize before access the instance*
+   *Please allow upto 5 minutes for the EC2 instance to initialize before accessing the instance*
 
 
 __That's it - Hyperglance is now deployed in your environment and ready for configuration!__
 
-* Access the web UI by clicking the link provided by Terraform for public_ip or public_dns.
+## Login
+
+Login using the hostname of the ALB. Default credentials:
+
+Username: admin  
+Password: admin
+
+__It is highly recommended you [change the password](https://support.hyperglance.com/knowledge/how-to-change-hyperglance-login-password) once you login.__
+
 * Follow our guide [here](https://support.hyperglance.com/knowledge/how-to-apply-a-new-license) to apply your license
+* Follow our guide [here](https://support.hyperglance.com/knowledge/adding-new-aws-accounts-to-hyperglance) to add your first AWS account
 
 ## Questions
 

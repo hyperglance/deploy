@@ -17,25 +17,24 @@ variable "key_name" {
 }
 
 variable "allow_https_inbound_cidr" {
-  type        = string
+  type        = list(string)
   description = "The IP range you are going to connect to Hyperglance UI/API. Must be a valid ipv4 CIDR range of the form x.x.x.x/x"
 
   validation {
     # Validate input supplied is an IPv4 CIDR
-    condition     = can(regex("(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/(3[0-2]|[1-2][0-9]|[0-9]))$", var.allow_https_inbound_cidr))
+    condition     = alltrue([for ip in var.allow_https_inbound_cidr : can(regex("(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/(3[0-2]|[1-2][0-9]|[0-9]))$", ip))])
     error_message = "The cidr must be a valid ipv4 address range (ex: 10.0.0.0/24)."
   }
 }
 
 variable "allow_ssh_inbound_cidr" {
-  type        = string
+  type        = list(string)
   description = "The IP range you are going to SSH to the Hyperglance Instance from. Must be a valid CIDR range of the form x.x.x.x/x"
 
   validation {
     # Validate input supplied is an IPv4 CIDR
-    condition = can(regex("(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/(3[0-2]|[1-2][0-9]|[0-9]))$", var.allow_ssh_inbound_cidr))
-
-    error_message = "The cidr must be a valid ipv4 address range (ex: 192.168.5.120/32)."
+    condition     = alltrue([for ip in var.allow_ssh_inbound_cidr : can(regex("(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/(3[0-2]|[1-2][0-9]|[0-9]))$", ip))])
+    error_message = "The cidr must be a valid ipv4 address range (ex: 10.0.0.0/24)."
   }
 }
 

@@ -46,7 +46,7 @@ resource "aws_security_group" "hg_sg" {
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
-    cidr_blocks = [var.allow_https_inbound_cidr]
+    cidr_blocks = var.allow_https_inbound_cidr
   }
 
   ingress {
@@ -54,15 +54,17 @@ resource "aws_security_group" "hg_sg" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = [var.allow_ssh_inbound_cidr]
+    cidr_blocks = var.allow_ssh_inbound_cidr
   }
 
   egress {
+
+    description      = "Allow EC2 access to internet"
     from_port        = 0
     to_port          = 0
     protocol         = "-1"
-    cidr_blocks      = ["0.0.0.0/0"]
-    ipv6_cidr_blocks = ["::/0"]
+    cidr_blocks      = ["0.0.0.0/0"] #tfsec:ignore:aws-vpc-no-public-egress-sg 
+    ipv6_cidr_blocks = ["::/0"]      #tfsec:ignore:aws-vpc-no-public-egress-sg
   }
 
   tags = var.tags

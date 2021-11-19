@@ -1,4 +1,3 @@
-//Hyperglance Evaluation Deployment Terraform
 terraform {
   required_version = ">= 0.14.0"
 
@@ -11,5 +10,5 @@ terraform {
 }
 
 provider "aws" {
-  region  = var.region
+  region = var.region
 }
