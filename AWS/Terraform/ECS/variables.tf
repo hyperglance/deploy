@@ -25,7 +25,6 @@ variable "tags" {
   type        = map(string)
   description = "Resource Tags to Apply"
   default = {
-    Persistent  = "True"
     Description = "Resources Required by Hyperglance"
     Help        = "https://support.hyperglance.com/"
     Source      = "https://github.com/hyperglance/deploy"
@@ -72,5 +71,5 @@ variable "allow_https_inbound_cidr" {
 }
 locals {
   postgresql_hostname = join(".", [aws_service_discovery_service.postgresql.name, aws_service_discovery_private_dns_namespace.hyperglance.name])
-  MAX_HEAPSIZE        = join("", ["${var.hyperglance_ecs_task_memory - 256}", "m"])
+  MAX_HEAPSIZE        = join("", ["${var.hyperglance_ecs_task_memory - 384}", "m"])
 }

@@ -61,7 +61,6 @@ variable "tags" {
   type        = map(string)
   description = "Resource Tags to Apply"
   default = {
-    Persistent  = "True"
     Description = "Resources Required by Hyperglance"
     Help        = "https://support.hyperglance.com/"
     Source      = "https://github.com/hyperglance/deploy"

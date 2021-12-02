@@ -66,7 +66,7 @@ variable "allow_https_inbound_cidr" {
 
 locals {
   postgresql_hostname = aws_rds_cluster.postgresql.endpoint
-  MAX_HEAPSIZE        = join("", ["${var.hyperglance_ecs_task_memory - 256}", "m"])
+  MAX_HEAPSIZE        = join("", ["${var.hyperglance_ecs_task_memory - 384}", "m"])
 }
 
 

@@ -235,7 +235,7 @@ data "aws_iam_policy_document" "efs" {
     effect = "Allow"
     principals {
       type        = "AWS"
-      identifiers = [aws_iam_role.hg_postgresql_task_role.arn, aws_iam_role.hg_wildfly_task_role.arn]
+      identifiers = [aws_iam_role.hg_postgresql_task_role.arn]
     }
 
     actions = [

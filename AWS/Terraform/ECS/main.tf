@@ -35,7 +35,7 @@ resource "aws_ecs_service" "hyperglance" {
   deployment_minimum_healthy_percent = 0   # Allow to scale to 0 on new deployment events
   deployment_maximum_percent         = 100 # Allow only 1 instance of task running at one time
   enable_ecs_managed_tags            = true
-  propagate_tags = "SERVICE"
+  propagate_tags                     = "SERVICE"
   health_check_grace_period_seconds  = 300 # Allow 5 minutes grace for Wildfly container to provision - prevent premature shutdown
   capacity_provider_strategy {
     base              = 1
@@ -79,7 +79,7 @@ resource "aws_ecs_service" "postgresql" {
   deployment_minimum_healthy_percent = 0   # Allow to scale to 0 on new deployment events
   deployment_maximum_percent         = 100 # Allow only 1 instance of task running at one time
   enable_ecs_managed_tags            = true
-  propagate_tags = "SERVICE"
+  propagate_tags                     = "SERVICE"
   capacity_provider_strategy {
     base              = 1
     capacity_provider = var.capacity_provider

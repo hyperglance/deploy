@@ -22,6 +22,8 @@ resource "aws_lb_target_group" "hyperglance" {
     path     = "/"
     protocol = "HTTPS"
     port     = 8443
+    timeout  = 30
+    interval = 45
   }
 }
 # Provision HTTP listener for redirect to HTTPS

@@ -1,6 +1,6 @@
 # Random ID string to reduce likelihood of resource name collision
 resource "random_string" "string" {
-  length = 5
+  length  = 5
   special = false
 }
 

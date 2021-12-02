@@ -3,8 +3,7 @@
 # Hyperglance Deployment
 
 * [Deploy to AWS](#deploy-to-aws)
-* [Deploy to Azure](#deploy-to-azure)
-* [Deploy to Kubernetes](#deploy-to-kubernetes)
+* [Deploy to Kubernetes](https://github.com/hyperglance/kubernetes)
 
 ## Deploy to AWS
 
