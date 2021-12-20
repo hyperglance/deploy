@@ -1,6 +1,6 @@
 {
 	"AWSTemplateFormatVersion": "2010-09-09",
-	"Description": "Hyperglance 6.8.48",
+	"Description": "Hyperglance 6.9.19",
 	"Parameters": {
 		"InstanceType": {
 			"Type": "String",
