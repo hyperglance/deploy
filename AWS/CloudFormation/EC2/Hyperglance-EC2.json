@@ -180,70 +180,70 @@
 	"Mappings": {
 		"RegionMap": {
 			"us-east-1": {
-				"ImageIdent": "ami-0add6e9dfe8107698"
+				"ImageIdent": "ami-0bb254975ef7f7dc9"
 			},
 			"us-east-2": {
-				"ImageIdent": "ami-03a1b5a830ca5553f"
+				"ImageIdent": "ami-0e1f73336ae435cc6"
 			},
 			"us-west-1": {
-				"ImageIdent": "ami-0f513432ac9a27cf3"
+				"ImageIdent": "ami-0931e78af69bd0833"
 			},
 			"us-west-2": {
-				"ImageIdent": "ami-0798e974246b7e5fe"
+				"ImageIdent": "ami-0565dc898edf25073"
 			},
 			"ca-central-1": {
-				"ImageIdent": "ami-0d2a270122d801858"
+				"ImageIdent": "ami-0a9bb2dea510ac569"
 			},
 			"eu-west-1": {
-				"ImageIdent": "ami-02a63d0ff098296f9"
+				"ImageIdent": "ami-02e6da35fd2853b76"
 			},
 			"eu-central-1": {
-				"ImageIdent": "ami-090405c5428440480"
+				"ImageIdent": "ami-0b5029c9dc9fffbd8"
 			},
 			"eu-west-2": {
-				"ImageIdent": "ami-0f25d1100cd9268dd"
+				"ImageIdent": "ami-05e93fab7b1b7af4e"
 			},
 			"eu-west-3": {
-				"ImageIdent": "ami-0194292af9171ef0c"
+				"ImageIdent": "ami-029f332f0f6a25e84"
 			},
 			"eu-north-1": {
-				"ImageIdent": "ami-0d367829627b761fb"
+				"ImageIdent": "ami-00e67c882d2c290f1"
 			},
 			"eu-south-1": {
-				"ImageIdent": "ami-0c95e9c4960fecf55"
+				"ImageIdent": "ami-04801aded330658d9"
 			},
 			"ap-northeast-1": {
-				"ImageIdent": "ami-02734cc17eaff908c"
+				"ImageIdent": "ami-0c3ff5cd351336af0"
 			},
 			"ap-northeast-2": {
-				"ImageIdent": "ami-03a2f3a2a45eb1e62"
+				"ImageIdent": "ami-04622cc71a883bee2"
 			},
 			"ap-southeast-1": {
-				"ImageIdent": "ami-017b3526d970a919e"
+				"ImageIdent": "ami-0608b1948a129b457"
 			},
 			"ap-southeast-2": {
-				"ImageIdent": "ami-011f1bc73e645e9bd"
+				"ImageIdent": "ami-0afb035db4a3f65de"
 			},
 			"ap-south-1": {
-				"ImageIdent": "ami-01b4f7322cb11ce76"
+				"ImageIdent": "ami-0c69f9c3e09564ee6"
 			},
 			"ap-east-1": {
-				"ImageIdent": "ami-04947aff3848657b3"
+				"ImageIdent": "ami-03da5578e5ba58907"
 			},
 			"sa-east-1": {
-				"ImageIdent": "ami-0143e5b294df65d22"
+				"ImageIdent": "ami-0f6b8306c79baabc9"
 			},
 			"af-south-1": {
-				"ImageIdent": "ami-0542e73dd06a98368"
+				"ImageIdent": "ami-0da9bf146a72cbe78"
 			},
 			"me-south-1": {
-				"ImageIdent": "ami-0d6a13dc0b606d3e2"
+				"ImageIdent": "ami-06a0b5549353d5b63"
 			},
 			"us-gov-east-1": {
-				"ImageIdent": "ami-000ec92a21e1412e2"
+				"ImageIdent": "ami-04da321cb755238dc"
 			},
 			"us-gov-west-1": {
-				"ImageIdent": "ami-0c262e5f2ebc8cf05"
+				"ImageIdent": "ami-03081104b56a7ffec"
 			}
 		}
 	},
