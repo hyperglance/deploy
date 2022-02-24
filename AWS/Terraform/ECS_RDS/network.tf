@@ -136,3 +136,8 @@ resource "aws_security_group" "alb" {
     }
   ]
 }
+
+resource "aws_db_subnet_group" "hyperglance" {
+  name       = "hyperglance"
+  subnet_ids = data.aws_subnet_ids.vpc.ids
+}
