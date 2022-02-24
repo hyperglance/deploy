@@ -14,12 +14,14 @@ resource "aws_instance" "hg_ec2" {
     device_name = "/dev/xvda"
     volume_size = 10
     volume_type = "gp2"
+    encrypted = true
   }
 
   ebs_block_device {
     device_name = "/dev/xvdf"
     volume_size = 10
     volume_type = "gp2"
+    encrypted = true
   }
 
   metadata_options {
@@ -63,8 +65,8 @@ resource "aws_security_group" "hg_sg" {
     from_port        = 0
     to_port          = 0
     protocol         = "-1"
-    cidr_blocks      = ["0.0.0.0/0"] #tfsec:ignore:aws-vpc-no-public-egress-sg 
-    ipv6_cidr_blocks = ["::/0"]      #tfsec:ignore:aws-vpc-no-public-egress-sg
+    cidr_blocks      = ["0.0.0.0/0"] #tfsec:ignore:aws-vpc-no-public-egress-sgr
+    ipv6_cidr_blocks = ["::/0"]      #tfsec:ignore:aws-vpc-no-public-egress-sgr
   }
 
   tags = var.tags

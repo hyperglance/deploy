@@ -98,6 +98,7 @@ resource "aws_iam_policy" "hg_policy" {
           "iam:GetPolicyVersion",
           "iam:GenerateCredentialReport",
           "lambda:List*",
+          "Pricing:GetProducts",
           "ram:GetResourceShareAssociations",
           "redshift:describeClusterSubnetGroups",
           "redshift:describeClusters",

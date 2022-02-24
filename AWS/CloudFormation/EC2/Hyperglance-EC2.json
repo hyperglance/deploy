@@ -397,6 +397,7 @@
 								"iam:List*",
 								"lambda:Get*",
 								"lambda:List*",
+								"Pricing:GetProducts",
 								"ram:Get*",
 								"rds:Describe*",
 								"rds:List*",

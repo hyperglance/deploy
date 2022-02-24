@@ -1,4 +1,5 @@
 # Create RDS serverless cluster to host Hyperglance DB
+#tfsec:ignore:aws-rds-encrypt-cluster-storage-data
 resource "aws_rds_cluster" "postgresql" {
   cluster_identifier = "hyperglance-rds-cluster"
   engine             = "aurora-postgresql"

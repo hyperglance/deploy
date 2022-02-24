@@ -1,5 +1,5 @@
 # Provision ALB
-#tfsec:ignore:aws-elbv2-alb-not-public
+#tfsec:ignore:aws-elb-alb-not-public
 resource "aws_lb" "hyperglance" {
   name               = "Hyperglance-ALB-${random_string.string.id}"
   internal           = false
