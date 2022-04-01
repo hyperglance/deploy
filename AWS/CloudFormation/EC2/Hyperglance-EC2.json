@@ -1,6 +1,6 @@
 {
 	"AWSTemplateFormatVersion": "2010-09-09",
-	"Description": "Hyperglance 6.9.19",
+	"Description": "Hyperglance 6.9.30",
 	"Parameters": {
 		"InstanceType": {
 			"Type": "String",
@@ -179,65 +179,71 @@
 	},
 	"Mappings": {
 		"RegionMap": {
-			"us-east-1": {
-				"ImageIdent": "ami-0bb254975ef7f7dc9"
-			},
-			"us-east-2": {
-				"ImageIdent": "ami-0e1f73336ae435cc6"
-			},
-			"us-west-1": {
-				"ImageIdent": "ami-0931e78af69bd0833"
-			},
-			"us-west-2": {
-				"ImageIdent": "ami-0565dc898edf25073"
-			},
-			"ca-central-1": {
-				"ImageIdent": "ami-0a9bb2dea510ac569"
-			},
-			"eu-west-1": {
-				"ImageIdent": "ami-02e6da35fd2853b76"
-			},
-			"eu-central-1": {
-				"ImageIdent": "ami-0b5029c9dc9fffbd8"
-			},
-			"eu-west-2": {
-				"ImageIdent": "ami-05e93fab7b1b7af4e"
-			},
-			"eu-west-3": {
-				"ImageIdent": "ami-029f332f0f6a25e84"
-			},
-			"eu-north-1": {
-				"ImageIdent": "ami-00e67c882d2c290f1"
-			},
-			"eu-south-1": {
-				"ImageIdent": "ami-04801aded330658d9"
-			},
-			"ap-northeast-1": {
-				"ImageIdent": "ami-0c3ff5cd351336af0"
-			},
-			"ap-northeast-2": {
-				"ImageIdent": "ami-04622cc71a883bee2"
-			},
-			"ap-southeast-1": {
-				"ImageIdent": "ami-0608b1948a129b457"
-			},
-			"ap-southeast-2": {
-				"ImageIdent": "ami-0afb035db4a3f65de"
-			},
-			"ap-south-1": {
-				"ImageIdent": "ami-0c69f9c3e09564ee6"
+			"af-south-1": {
+				"ImageIdent": "ami-0d349b13476180316"
 			},
 			"ap-east-1": {
-				"ImageIdent": "ami-03da5578e5ba58907"
+				"ImageIdent": "ami-0a34a22fd6d631ba9"
 			},
-			"sa-east-1": {
-				"ImageIdent": "ami-0f6b8306c79baabc9"
+			"ap-northeast-1": {
+				"ImageIdent": "ami-090ea332e8d8f7414"
 			},
-			"af-south-1": {
-				"ImageIdent": "ami-0da9bf146a72cbe78"
+			"ap-northeast-2": {
+				"ImageIdent": "ami-0f8e59b7087437800"
+			},
+			"ap-northeast-3": {
+				"ImageIdent": "ami-0cea5af6975150901"
+			},
+			"ap-south-1": {
+				"ImageIdent": "ami-0a813e8b7381b7ebb"
+			},
+			"ap-southeast-1": {
+				"ImageIdent": "ami-06e58aec8e0fe66c4"
+			},
+			"ap-southeast-2": {
+				"ImageIdent": "ami-0038abd802ee20d24"
+			},
+			"ap-southeast-3": {
+				"ImageIdent": "ami-0b769eb9d5a89c916"
+			},
+			"ca-central-1": {
+				"ImageIdent": "ami-0371bb138a374b16d"
+			},
+			"eu-central-1": {
+				"ImageIdent": "ami-0659f901b9a50e8e8"
+			},
+			"eu-north-1": {
+				"ImageIdent": "ami-063b2ac0612420f44"
+			},
+			"eu-south-1": {
+				"ImageIdent": "ami-06efa3d06f8d532d8"
+			},
+			"eu-west-1": {
+				"ImageIdent": "ami-0b4e7481a2923c2fc"
+			},
+			"eu-west-2": {
+				"ImageIdent": "ami-064611e0532a7496e"
+			},
+			"eu-west-3": {
+				"ImageIdent": "ami-0b7cc7b2811876648"
 			},
 			"me-south-1": {
-				"ImageIdent": "ami-06a0b5549353d5b63"
+				"ImageIdent": "ami-0000b7ae66015c7e1"
+			},
+			"sa-east-1": {
+				"ImageIdent": "ami-00d29a3041e32cc3d"
+			},
+			"us-east-1": {
+				"ImageIdent": "ami-05fc3ce23fd2ebb94"
+			},
+			"us-east-2": {
+				"ImageIdent": "ami-08b33414437b9790d"
+			},
+			"us-west-1": {
+				"ImageIdent": "ami-0b53e476262702a53"
+			},
+			"us-west-2": {
+				"ImageIdent": "ami-04a966478461b7238"
 			},
 			"us-gov-east-1": {
 				"ImageIdent": "ami-04da321cb755238dc"
@@ -371,18 +377,19 @@
 						{
 							"Effect": "Allow",
 							"Action": [
-								"access-analyzer:ListAnalyzers",
+								"access-analyzer:List*",
 								"apigateway:GET",
 								"autoscaling:Describe*",
 								"backup:ListProtectedResources",
 								"cloudwatch:Describe*",
-								"cloudwatch:Get*",
-								"cloudwatch:List*",
+								"cloudwatch:GetMetricStatistics",
+								"cloudwatch:ListMetrics",
 								"cur:DescribeReportDefinitions",
 								"dax:Describe*",
-								"dax:List*",
+								"dax:ListTags",
 								"dynamodb:Describe*",
-								"dynamodb:List*",
+								"dynamodb:ListTables",
+								"dynamodb:ListTagsOfResource",
 								"directconnect:Describe*",
 								"ec2:Describe*",
 								"ec2:Get*",
@@ -392,28 +399,24 @@
 								"eks:Describe*",
 								"eks:List*",
 								"elasticloadbalancing:Describe*",
-								"iam:GenerateCredentialReport",
-								"iam:Get*",
 								"iam:List*",
-								"lambda:Get*",
+								"iam:Get*",
+								"iam:GenerateCredentialReport",
 								"lambda:List*",
-								"Pricing:GetProducts",
-								"ram:Get*",
-								"rds:Describe*",
-								"rds:List*",
+								"ram:GetResourceShareAssociations",
 								"redshift:Describe*",
 								"redshift:List*",
-								"route53:Get*",
+								"rds:Describe*",
+								"rds:ListTagsForResource",
 								"route53:List*",
+								"route53:Get*",
 								"s3:Get*",
-								"s3:List*",
+								"s3:ListAllMyBuckets",
+								"s3:ListBucket",
 								"sts:AssumeRole",
 								"sts:GetCallerIdentity",
-								"sns:List*",
-								"sns:Get*",
-								"sqs:List*",
-								"sqs:Get*",
-								"workspaces:Describe*"
+								"workspaces:Describe*",
+								"pricing:GetProducts"
 							],
 							"Resource": "*"
 						}
