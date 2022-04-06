@@ -1,4 +1,3 @@
-
 variable "region" {
   type        = string
   description = "The AWS region to deploy Hyperglance in (ex. us-east-1)"
@@ -70,30 +69,32 @@ variable "tags" {
 # Current public AMI's published by Hyperglance
 
 variable "image_ids" {
-  #use 'var.image_ids[var.region]' to grab appropriate id
+  # use 'var.image_ids[var.region]' to grab appropriate id
   type = map(any)
   default = {
-    "us-east-1" = "ami-0bb254975ef7f7dc9"
-    "us-east-2" = "ami-0e1f73336ae435cc6"
-    "us-west-1" = "ami-0931e78af69bd0833"
-    "us-west-2" = "ami-0565dc898edf25073"
-    "ca-central-1" = "ami-0a9bb2dea510ac569"
-    "eu-west-1" = "ami-02e6da35fd2853b76"
-    "eu-central-1" = "ami-0b5029c9dc9fffbd8"
-    "eu-west-2" = "ami-05e93fab7b1b7af4e"
-    "eu-west-3" = "ami-029f332f0f6a25e84"
-    "eu-north-1" = "ami-00e67c882d2c290f1"
-    "eu-south-1" = "ami-04801aded330658d9"
-    "ap-northeast-1" = "ami-0c3ff5cd351336af0"
-    "ap-northeast-2" = "ami-04622cc71a883bee2"
-    "ap-southeast-1" = "ami-0608b1948a129b457"
-    "ap-southeast-2" = "ami-0afb035db4a3f65de"
-    "ap-south-1" = "ami-0c69f9c3e09564ee6"
-    "ap-east-1" = "ami-03da5578e5ba58907"
-    "sa-east-1" = "ami-0f6b8306c79baabc9"
-    "af-south-1" = "ami-0da9bf146a72cbe78"
-    "me-south-1" = "ami-06a0b5549353d5b63"
-    "us-gov-east-1" = "ami-04da321cb755238dc"
-    "us-gov-west-1" = "ami-03081104b56a7ffec"
-  }
+			"af-south-1" = "ami-074ec3ccdcc86989a"
+			"ap-east-1" = "ami-053e7f52a71bd9649"
+			"ap-northeast-1" = "ami-06aecc96ac7c26619"
+			"ap-northeast-2" = "ami-014064b181dd07f8e"
+			"ap-northeast-3" = "ami-02b8df39d1b8e38cf"
+			"ap-south-1" = "ami-0a5260cc34adbaca2"
+			"ap-southeast-1" = "ami-0d9ee2eb3fda1a006"
+			"ap-southeast-2" = "ami-06415c23337ddfa4e"
+			"ap-southeast-3" = "ami-0112774d6e27d5c5d"
+			"ca-central-1" = "ami-08c27f74dd8404259"
+			"eu-central-1" = "ami-011c4f6634a6b4712"
+			"eu-north-1" = "ami-03ccf6424a806bcf0"
+			"eu-south-1" = "ami-0a6b03837b845e24e"
+			"eu-west-1" = "ami-05ed0774cf435a6e1"
+			"eu-west-2" = "ami-01d416690d3cf96ac"
+			"eu-west-3" = "ami-0a7825cf81c2544ac"
+			"me-south-1" = "ami-065c0a477d9b8b479"
+			"sa-east-1" = "ami-00391e8402af1517e"
+			"us-east-1" = "ami-0c5b3bb44eac718e4"
+			"us-east-2" = "ami-0c1249266f0dd31ab"
+			"us-west-1" = "ami-0fd1c1b1d410e61f2"
+			"us-west-2" = "ami-0a4c89a56a15c9bde"
+			"us-gov-east-1" = "ami-04da321cb755238dc"
+			"us-gov-west-1" = "ami-03081104b56a7ffec"
+    }
 }
