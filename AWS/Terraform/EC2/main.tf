@@ -14,14 +14,14 @@ resource "aws_instance" "hg_ec2" {
     device_name = "/dev/xvda"
     volume_size = 10
     volume_type = "gp2"
-    encrypted = true
+    encrypted   = true
   }
 
   ebs_block_device {
     device_name = "/dev/xvdf"
     volume_size = 10
     volume_type = "gp2"
-    encrypted = true
+    encrypted   = true
   }
 
   metadata_options {
