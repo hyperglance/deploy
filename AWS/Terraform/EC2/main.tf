@@ -9,21 +9,19 @@ resource "aws_instance" "hg_ec2" {
   subnet_id                   = var.subnet_id
   vpc_security_group_ids      = [aws_security_group.hg_sg.id]
   associate_public_ip_address = var.assign_public_ip
-
-  ebs_block_device {
-    device_name = "/dev/xvda"
-    volume_size = 10
+  root_block_device {
+    volume_size = "20"
     volume_type = "gp2"
-    encrypted   = true
+    encrypted = true
   }
-
   ebs_block_device {
-    device_name = "/dev/xvdf"
-    volume_size = 10
-    volume_type = "gp2"
-    encrypted   = true
-  }
 
+    device_name = "/dev/sdc"
+    volume_size = "20"
+    volume_type = "gp2"
+    encrypted = true
+    delete_on_termination = false
+  }
   metadata_options {
     http_endpoint = "enabled"
   }

@@ -1,6 +1,6 @@
 {
 	"AWSTemplateFormatVersion": "2010-09-09",
-	"Description": "Hyperglance 6.9.33",
+	"Description": "Hyperglance 6.9.36",
 	"Parameters": {
 		"InstanceType": {
 			"Type": "String",
@@ -180,76 +180,76 @@
 	"Mappings": {
 		"RegionMap": {
 			"af-south-1": {
-				"ImageIdent": "ami-00a2b58ae7d0d0557"
+				"ImageIdent": "ami-0feef21fb4fdc0a8b"
 			},
 			"ap-east-1": {
-				"ImageIdent": "ami-0b18de3a2b4dc0b3b"
+				"ImageIdent": "ami-042fc6c543e22d73a"
 			},
 			"ap-northeast-1": {
-				"ImageIdent": "ami-0e6672f56948b1290"
+				"ImageIdent": "ami-07b4ea62f2968247a"
 			},
 			"ap-northeast-2": {
-				"ImageIdent": "ami-0b4f5a0a91c471c63"
+				"ImageIdent": "ami-0ed3b76bc485de2d2"
 			},
 			"ap-northeast-3": {
-				"ImageIdent": "ami-0cd8550bffa371cb3"
+				"ImageIdent": "ami-0efb8d2389c63c940"
 			},
 			"ap-south-1": {
-				"ImageIdent": "ami-0d464303b4f9eeda5"
+				"ImageIdent": "ami-03682b7079d9c0ddb"
 			},
 			"ap-southeast-1": {
-				"ImageIdent": "ami-0c5a832b39add313f"
+				"ImageIdent": "ami-0a78fa9224da551a1"
 			},
 			"ap-southeast-2": {
-				"ImageIdent": "ami-0be80b28b6acf62cf"
+				"ImageIdent": "ami-0683df03e5cccaf21"
 			},
 			"ap-southeast-3": {
-				"ImageIdent": "ami-08dff229deedcf224"
+				"ImageIdent": "ami-033270d444d394c9c"
 			},
 			"ca-central-1": {
-				"ImageIdent": "ami-046fe822c537bd4bc"
+				"ImageIdent": "ami-0f3f797cd5d541563"
 			},
 			"eu-central-1": {
-				"ImageIdent": "ami-0ea3e5cce17d6fbb2"
+				"ImageIdent": "ami-039e2693475f8ef25"
 			},
 			"eu-north-1": {
-				"ImageIdent": "ami-07d6000b42084de36"
+				"ImageIdent": "ami-06ff59aac8df4ef0a"
 			},
 			"eu-south-1": {
-				"ImageIdent": "ami-00627a7d59e469f64"
+				"ImageIdent": "ami-0ed96d4ee384483f5"
 			},
 			"eu-west-1": {
-				"ImageIdent": "ami-00849fb1e97ddb2cf"
+				"ImageIdent": "ami-009db19ec5a0d8bbf"
 			},
 			"eu-west-2": {
-				"ImageIdent": "ami-018c755b624685d47"
+				"ImageIdent": "ami-04fdd0335fb157871"
 			},
 			"eu-west-3": {
-				"ImageIdent": "ami-0b52161ba120e3710"
+				"ImageIdent": "ami-091379530f5ef674c"
 			},
 			"me-south-1": {
-				"ImageIdent": "ami-0ea11791f79fd9e4c"
+				"ImageIdent": "ami-06d144204857e509d"
 			},
 			"sa-east-1": {
-				"ImageIdent": "ami-04617f81144aecca6"
+				"ImageIdent": "ami-046e41465fc35c59d"
 			},
 			"us-east-1": {
-				"ImageIdent": "ami-099221e0120d59d30"
+				"ImageIdent": "ami-0bb3f28a69dda2387"
 			},
 			"us-east-2": {
-				"ImageIdent": "ami-0617f9f68493204e6"
+				"ImageIdent": "ami-07cccab440a3de700"
 			},
 			"us-west-1": {
-				"ImageIdent": "ami-0ff6a91641c3f005f"
+				"ImageIdent": "ami-0bad51efa2aeb2a1d"
 			},
 			"us-west-2": {
-				"ImageIdent": "ami-0e0e55a506bcf181a"
+				"ImageIdent": "ami-014353bbe0421eb3e"
 			},
 			"us-gov-east-1": {
-				"ImageIdent": "ami-01a224bd59574724b"
+				"ImageIdent": "ami-04da321cb755238dc"
 			},
 			"us-gov-west-1": {
-				"ImageIdent": "ami-00a142c179b55e923"
+				"ImageIdent": "ami-03081104b56a7ffec"
 			}
 		}
 	},
@@ -304,17 +304,20 @@
 				],
 				"BlockDeviceMappings": [
 					{
-						"DeviceName": "/dev/xvda",
+						"DeviceName": "/dev/sda1",
 						"Ebs": {
-							"VolumeSize": "10",
-							"VolumeType": "gp2"
+							"VolumeSize": "20",
+							"VolumeType": "gp2",
+							"Encrypted" : true
 						}
 					},
 					{
-						"DeviceName": "/dev/xvdf",
+						"DeviceName": "/dev/sdc",
 						"Ebs": {
 							"VolumeSize": "20",
-							"VolumeType": "gp2"
+							"VolumeType": "gp2",
+							"Encrypted" : true,
+							"DeleteOnTermination": false
 						}
 					}
 				]
