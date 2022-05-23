@@ -246,10 +246,10 @@
 				"ImageIdent": "ami-014353bbe0421eb3e"
 			},
 			"us-gov-east-1": {
-				"ImageIdent": "ami-04da321cb755238dc"
+				"ImageIdent": "ami-070e93042d8d275b7"
 			},
 			"us-gov-west-1": {
-				"ImageIdent": "ami-03081104b56a7ffec"
+				"ImageIdent": "ami-08650c40d62296d45"
 			}
 		}
 	},

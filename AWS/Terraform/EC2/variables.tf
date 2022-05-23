@@ -94,7 +94,7 @@ variable "image_ids" {
 			"us-east-2" = "ami-07cccab440a3de700"
 			"us-west-1" = "ami-0bad51efa2aeb2a1d"
 			"us-west-2" = "ami-014353bbe0421eb3e"
-			"us-gov-east-1" = "ami-04da321cb755238dc"
-			"us-gov-west-1" = "ami-03081104b56a7ffec"
+			"us-gov-east-1" = "ami-070e93042d8d275b7"
+			"us-gov-west-1" = "ami-08650c40d62296d45"
   }
 }
