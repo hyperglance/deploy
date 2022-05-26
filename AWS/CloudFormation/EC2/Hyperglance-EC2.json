@@ -58,6 +58,19 @@
 				"false"
 			]
 		},
+		"EBSVolEncrypt": {
+			"Type": "String",
+			"Default": "true",
+			"Description": "Enable encryption on EBS volumes?",
+			"AllowedValues": [
+				"true",
+				"false"
+			]
+		},
+		"KmsKeyId": {
+			"Type": "String",
+			"Description": "ID of the KMS key used to encrypt EBS volumes"
+		},
 		"PrivateStaticIP": {
 			"Description": "Enter in a static IP if wanted. Must be a valid IP range of the form x.x.x.x and must be part of the selected subnet range",
 			"Type": "String",
@@ -103,6 +116,14 @@
 				},
 				"true"
 			]
+		},
+		"KmsKeyId": {
+			"Fn::Equals": [
+				{
+					"Ref": "KmsKeyId"
+				},
+				""
+			]
 		}
 	},
 	"Metadata": {
@@ -123,7 +144,9 @@
 					"Parameters": [
 						"KeyName",
 						"HyperglanceCIDR",
-						"SSHCIDR"
+						"SSHCIDR",
+						"EBSVolEncrypt",
+						"KmsKeyId"
 					]
 				},
 				{
@@ -150,8 +173,14 @@
 				"InstanceType": {
 					"default": "Instance size."
 				},
+				"EbsVolEncrypt": {
+					"default": "Enable EBS volume encryption"
+				},
+				"KmsKeyId": {
+					"default": "ID of KMS key to encrypt volumes (OPTIONAL)"
+				},
 				"KeyName": {
-					"default": "Choose a SSH Key pair (REQUIRED)."
+					"default": "Choose an SSH Key pair (REQUIRED)."
 				},
 				"HyperglanceCIDR": {
 					"default": "Initial security group entry for TCP port 443. The IP range that can use Hyperglance."
@@ -308,7 +337,20 @@
 						"Ebs": {
 							"VolumeSize": "20",
 							"VolumeType": "gp2",
-							"Encrypted" : true
+							"Encrypted" : {
+								"Ref": "EBSVolEncrypt"
+							},
+							"KmsKeyId" : {
+								"Fn::If": [
+									"KmsKeyId",
+									{
+										"Ref": "AWS::NoValue"
+									}, 
+									{
+										"Ref": "KmsKeyId"
+									}
+								]
+							}
 						}
 					},
 					{
@@ -316,8 +358,21 @@
 						"Ebs": {
 							"VolumeSize": "20",
 							"VolumeType": "gp2",
-							"Encrypted" : true,
-							"DeleteOnTermination": false
+							"DeleteOnTermination": false,
+							"Encrypted" : {
+								"Ref": "EBSVolEncrypt"
+							},
+							"KmsKeyId" : {
+								"Fn::If": [
+									"KmsKeyId",
+									{
+										"Ref": "AWS::NoValue"
+									}, 
+									{
+										"Ref": "KmsKeyId"
+									}
+								]
+							}
 						}
 					}
 				]
