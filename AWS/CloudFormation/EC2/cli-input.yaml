@@ -1,6 +1,6 @@
 StackName: 'HyperglanceDeployment'  # [REQUIRED] The name that is associated with the stack.
 
-TemplateURL: 'https://hyperglance-deploy-repo-public.s3.amazonaws.com/CloudFormation/EC2/Hyperglance-EC2.json' # Structure containing the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes.
+TemplateURL: 'https://hyperglance-deploy-repo-public.s3.amazonaws.com/AWS/CloudFormation/EC2/Hyperglance-EC2.json' # Structure containing the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes.
 
 Parameters: # A list of Parameter structures that specify input parameters for the stack.
 - ParameterKey: 'KeyName'  # [REQUIRED] Name of an existing EC2 KeyPair. The Hyperglance instance will launch with this KeyPair.
