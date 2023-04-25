@@ -53,10 +53,10 @@ __That's it - Hyperglance is now deployed in your environment and ready for conf
 
 ## Login
 
-Login using the hostname of the ALB. Default credentials:
+Login using the Instance ID of the EC2 Instance hosting Hyperglance. Default credentials:
 
 Username: admin  
-Password: admin
+Password: <Instance_ID>
 
 __It is highly recommended you [change the password](https://support.hyperglance.com/knowledge/how-to-change-hyperglance-login-password) once you login.__
 
