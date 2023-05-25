@@ -1,5 +1,5 @@
 resource "aws_iam_role" "hg_role" {
-  name = "HyperglanceXAccountIAMRole"
+  name = "HyperglanceReadOnly"
   path = "/"
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -20,7 +20,7 @@ resource "aws_iam_role" "hg_role" {
 
 #tfsec:ignore:aws-iam-no-policy-wildcards
 resource "aws_iam_policy" "hg_policy" {
-  name        = "HyperglanceXAccountIAMRole"
+  name        = "HyperglanceReadOnlyRole"
   path        = "/"
   description = "Hyperglance policy"
 

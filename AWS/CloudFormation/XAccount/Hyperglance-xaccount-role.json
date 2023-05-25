@@ -1,6 +1,6 @@
 {
     "AWSTemplateFormatVersion": "2010-09-09",
-    "Description": "This template creates IAM resources to allow Hyperglance access to poll resources in other subscriptions",
+    "Description": "This template creates a cross-account trusted IAM Role and Policy to allow Hyperglance read-only access to discover resources",
     "Parameters": {
         "HyperglanceRoleARN": {
             "Description": "ARN of the role assigned to the Hyperglance instance",
@@ -9,10 +9,10 @@
         }
     },
     "Resources": {
-        "HyperglanceXAccountIAMRole": {
+        "HyperglanceReadOnlyRole": {
             "Type": "AWS::IAM::Role",
             "Properties": {
-                "Path": "/",
+                "RoleName": "HyperglanceReadOnly",
                 "AssumeRolePolicyDocument": {
                     "Version": "2012-10-17",
                     "Statement": [
@@ -30,15 +30,15 @@
                 }
             }
         },
-        "HyperglanceReadPolicy": {
+        "HyperglanceReadOnlyPolicy": {
             "Type": "AWS::IAM::Policy",
             "Properties": {
                 "Roles": [
                     {
-                        "Ref": "HyperglanceXAccountIAMRole"
+                        "Ref": "HyperglanceReadOnlyRole"
                     }
                 ],
-                "PolicyName": "Hyperglance_Read_Policy",
+                "PolicyName": "HyperglanceReadOnlyAccess",
                 "PolicyDocument": {
                     "Version": "2012-10-17",
                     "Statement": [
@@ -169,8 +169,8 @@
     },
     "Outputs" : {
         "HyperglanceXAccountRole" : {
-          "Description" : "ARN of the XAccount role created",
-          "Value" : { "Fn::GetAtt" : [ "HyperglanceXAccountIAMRole", "Arn" ] }
+          "Description" : "ARN of the role created",
+          "Value" : { "Fn::GetAtt" : [ "HyperglanceReadOnlyRole", "Arn" ] }
         }
       }
 }
