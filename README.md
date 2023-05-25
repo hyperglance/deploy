@@ -1,7 +1,7 @@
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="./files/hyperglance_logo_dark.svg">
-  <source media="(prefers-color-scheme: light)" srcset="./files/hyperglance_logo_light.svg">
-  <img alt="Hyperglance logo" src="./files/hyperglance_logo_light.svg">
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/hyperglance/deploy/master/files/hyperglance_logo_dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/hyperglance/deploy/master/files/hyperglance_logo_dark.svg">
+  <img alt="Hyperglance logo" src="https://raw.githubusercontent.com/hyperglance/deploy/master/files/hyperglance_logo_dark.svg">
 </picture>
 
 # Hyperglance Deployment
