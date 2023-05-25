@@ -1,4 +1,8 @@
-<img src="https://github.com/hyperglance/deploy/blob/master/files/b5dfbb6c-75c8-493b-8c5d-d68b3272cf0f.png" alt="Hyperglance Logo" />
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./files/hyperglance_logo_dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="./files/hyperglance_logo_light.svg">
+  <img alt="Hyperglance logo" src="./files/hyperglance_logo_light.svg">
+</picture>
 
 # Hyperglance Deployment
 
