@@ -472,11 +472,12 @@
 								"s3:ListAllMyBuckets",
 								"s3:ListBucket",
 								"sts:AssumeRole",
-								"sns:ListTopics",
-								"sns:ListSubscriptions",
-								"sqs:ListQueues",
 								"sts:GetCallerIdentity",
 								"workspaces:Describe*",
+								"sns:List*",
+								"sns:Get*",
+								"sqs:List*",
+								"sqs:Get*",
 								"pricing:GetProducts"
 							],
 							"Resource": "*"
