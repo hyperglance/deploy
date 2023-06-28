@@ -1,6 +1,6 @@
 {
 	"AWSTemplateFormatVersion": "2010-09-09",
-	"Description": "Hyperglance 7.2.3",
+	"Description": "Hyperglance 7.3.2",
 	"Parameters": {
 		"InstanceType": {
 			"Type": "String",
@@ -209,76 +209,76 @@
 	"Mappings": {
 		"RegionMap": {
 			"af-south-1": {
-				"ImageIdent": "ami-0c781f4a808e49644"
+				"ImageIdent": "ami-0d7a131ee4e357726"
 			},
 			"ap-east-1": {
-				"ImageIdent": "ami-038085085de6bb200"
+				"ImageIdent": "ami-0d341d944ef7ab44d"
 			},
 			"ap-northeast-1": {
-				"ImageIdent": "ami-0171f3c65a3a1b9ee"
+				"ImageIdent": "ami-0eb72ee24e19335ce"
 			},
 			"ap-northeast-2": {
-				"ImageIdent": "ami-0216dca1a451f6491"
+				"ImageIdent": "ami-0f75b7dd5e2721524"
 			},
 			"ap-northeast-3": {
-				"ImageIdent": "ami-02162413d15509d61"
+				"ImageIdent": "ami-049b0c1f3e509289a"
 			},
 			"ap-south-1": {
-				"ImageIdent": "ami-0ab401c755d0e0943"
+				"ImageIdent": "ami-06f5f7a28550c02bb"
 			},
 			"ap-southeast-1": {
-				"ImageIdent": "ami-0a6d1f25dc6644656"
+				"ImageIdent": "ami-06ca5bce39ce4a308"
 			},
 			"ap-southeast-2": {
-				"ImageIdent": "ami-04c0e11e0d3c9aadc"
+				"ImageIdent": "ami-0d86a0e7943d11305"
 			},
 			"ap-southeast-3": {
-				"ImageIdent": "ami-0454cc5601560b542"
+				"ImageIdent": "ami-02d74a35ad3450f77"
 			},
 			"ca-central-1": {
-				"ImageIdent": "ami-067285e7c3f34b378"
+				"ImageIdent": "ami-091b48fbb48e2f275"
 			},
 			"eu-central-1": {
-				"ImageIdent": "ami-0ff0da36d2d914f49"
+				"ImageIdent": "ami-003386a0078c2b38d"
 			},
 			"eu-north-1": {
-				"ImageIdent": "ami-087ab41c75d43c892"
+				"ImageIdent": "ami-0f462479656499f71"
 			},
 			"eu-south-1": {
-				"ImageIdent": "ami-0c79a8de148cdaf3a"
+				"ImageIdent": "ami-077615db15fe51415"
 			},
 			"eu-west-1": {
-				"ImageIdent": "ami-0af7b8e9d2f2eb140"
+				"ImageIdent": "ami-0e1870150988b1cae"
 			},
 			"eu-west-2": {
-				"ImageIdent": "ami-046af25ed2d803cdb"
+				"ImageIdent": "ami-041a2511cdb3ebd8b"
 			},
 			"eu-west-3": {
-				"ImageIdent": "ami-06a847e2b0c05d70b"
+				"ImageIdent": "ami-08d68f0d15603a9b2"
 			},
 			"me-south-1": {
-				"ImageIdent": "ami-03ef7a31e2660eec0"
+				"ImageIdent": "ami-05881a3f8f064c3d4"
 			},
 			"sa-east-1": {
-				"ImageIdent": "ami-0674c6c8926d3144b"
+				"ImageIdent": "ami-0b5d02f26f2e24cc2"
 			},
 			"us-east-1": {
-				"ImageIdent": "ami-006899779324dc5f7"
+				"ImageIdent": "ami-06f9f60e580acfd63"
 			},
 			"us-east-2": {
-				"ImageIdent": "ami-059f028e7de20b45f"
+				"ImageIdent": "ami-01969245a292414be"
 			},
 			"us-west-1": {
-				"ImageIdent": "ami-0f73bd22ceae85af8"
+				"ImageIdent": "ami-043760e136fb6b5df"
 			},
 			"us-west-2": {
-				"ImageIdent": "ami-0b0db59ab7ed094f4"
+				"ImageIdent": "ami-0294790e2f8ab878d"
 			},
 			"us-gov-east-1": {
-				"ImageIdent": "ami-0a9eaa56a160fe3f0"
+				"ImageIdent": "ami-0c3b5022158a99d4f"
 			},
 			"us-gov-west-1": {
-				"ImageIdent": "ami-05d2af042e83dcffa"
+				"ImageIdent": "ami-0c5073da393f1f04f"
 			}
 		}
 	},
@@ -472,12 +472,12 @@
 								"s3:ListAllMyBuckets",
 								"s3:ListBucket",
 								"sts:AssumeRole",
-								"sts:GetCallerIdentity",
-								"workspaces:Describe*",
 								"sns:List*",
 								"sns:Get*",
 								"sqs:List*",
 								"sqs:Get*",
+								"sts:GetCallerIdentity",
+								"workspaces:Describe*",
 								"pricing:GetProducts"
 							],
 							"Resource": "*"
