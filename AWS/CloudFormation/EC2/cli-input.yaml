@@ -5,10 +5,14 @@ TemplateURL: 'https://hyperglance-deploy-repo-public.s3.amazonaws.com/AWS/CloudF
 Parameters: # A list of Parameter structures that specify input parameters for the stack.
 - ParameterKey: 'KeyName'  # [REQUIRED] Name of an existing EC2 KeyPair. The Hyperglance instance will launch with this KeyPair.
   ParameterValue: ''
-- ParameterKey: 'HyperglanceCIDR'  # [REQUIRED] The IP range you are going to connect to Hyperglance from. 
-  ParameterValue: 'x.x.x.x/x' # Must be a valid CIDR range of the form x.x.x.x/x
-- ParameterKey: 'SSHCIDR' # [REQUIRED] The IP range you are going to SSH to the Hyperglance Instance from. 
-  ParameterValue: 'x.x.x.x/x' # Must be a valid CIDR range of the form x.x.x.x/x
+- ParameterKey: 'HyperglanceCIDR'  # [REQUIRED] The IP range you are going to connect to Hyperglance from. Must be a valid CIDR range of the form x.x.x.x/x - 'false' disables this rule 
+  ParameterValue: 'false|x.x.x.x/x' # Must be a valid CIDR range of the form x.x.x.x/x or false 
+- ParameterKey: 'HyperglanceSGID'  # [REQUIRED] ID of AWS Security Group of system you are going to connect to Hyperglance from. Must be a valid Security Group ID of the form sg-xx - 'false' disables this rule 
+  ParameterValue: 'false|sg-xx' # Must be a valid SG-ID of the form sg-xx or false 
+- ParameterKey: 'SSHCIDR' # [REQUIRED] The IP range you are going to SSH to the Hyperglance Instance from. Must be a valid CIDR range of the form x.x.x.x/x - 'false' disables this rule 
+  ParameterValue: 'false|x.x.x.x/x' # Must be a valid CIDR range of the form x.x.x.x/x or false 
+- ParameterKey: 'SSHSGID' # [REQUIRED] ID of AWS Security Group of system you are going to SSH to the Hyperglance Instance from. Must be a valid Security Group ID of the form sg-xx - 'false' disables this rule 
+  ParameterValue: 'false|sg-xx' # Must be a valid SG-ID of the form sg-xx or false 
 - ParameterKey: 'AssignPublicIP' # [REQUIRED] Assign a Public IP? NOTE: Hyperglance needs to access the AWS API endpoints in order to function.
   ParameterValue: 'false' # boolean
 - ParameterKey: 'AssignStaticIP' # [REQUIRED] Do you want to assign a Static Private IP?
