@@ -25,7 +25,15 @@
 				"m5.large",
 				"m5.xlarge",
 				"m5.2xlarge",
-				"m5.4xlarge"
+				"m5.4xlarge",
+				"r5.large",
+				"r5.xlarge",
+				"r5.2xlarge",
+				"r5.4xlarge",
+				"r6i.large",
+				"r6i.xlarge",
+				"r6i.2xlarge",
+				"r6i.4xlarge"
 			],
 			"ConstraintDescription": "Must be a valid EC2 instance type."
 		},
@@ -34,20 +42,38 @@
 			"Description": "Name of an existing EC2 KeyPair. The Hyperglance instance will launch with this KeyPair."
 		},
 		"HyperglanceCIDR": {
-			"Description": "The IP range you are going to connect to Hyperglance from. Must be a valid CIDR range of the form x.x.x.x/x ",
+			"Description": "The IP range you are going to connect to Hyperglance from. Must be a valid CIDR range of the form x.x.x.x/x - 'false' disables this rule ",
 			"Type": "String",
 			"MinLength": "9",
 			"MaxLength": "18",
-			"AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})/(\\d{1,2})",
-			"ConstraintDescription": "Must be a valid CIDR range of the form x.x.x.x/x  "
+			"AllowedPattern": "false|(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})/(\\d{1,2})",
+			"ConstraintDescription": "Must be a valid CIDR range of the form x.x.x.x/x or false "
+		},
+		"HyperglanceSGID": {
+			"Description": "ID of AWS Security Group of system you are going to connect to Hyperglance from. Must be a valid Security Group ID of the form sg-xx - 'false' disables this rule ",
+			"Type": "String",
+			"Default": "false",
+			"MinLength": "5",
+			"MaxLength": "21",
+			"AllowedPattern": "false|sg-[a-z0-9]+",
+			"ConstraintDescription": "Must be a valid SG-ID of the form sg-xx or false "
 		},
 		"SSHCIDR": {
-			"Description": "The IP range you are going to SSH to the Hyperglance Instance from. Must be a valid CIDR range of the form x.x.x.x/x ",
+			"Description": "The IP range you are going to SSH to the Hyperglance Instance from. Must be a valid CIDR range of the form x.x.x.x/x - 'false' disables this rule ",
 			"Type": "String",
 			"MinLength": "9",
 			"MaxLength": "18",
-			"AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})/(\\d{1,2})",
-			"ConstraintDescription": "Must be a valid CIDR range of the form x.x.x.x/x "
+			"AllowedPattern": "false|(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})/(\\d{1,2})",
+			"ConstraintDescription": "Must be a valid CIDR range of the form x.x.x.x/x or false "
+		},
+		"SSHSGID": {
+			"Description": "ID of AWS Security Group of system you are going to SSH to the Hyperglance Instance from. Must be a valid Security Group ID of the form sg-xx - 'false' disables this rule ",
+			"Type": "String",
+			"Default": "false",
+			"MinLength": "5",
+			"MaxLength": "21",
+			"AllowedPattern": "false|sg\\-[a-z0-9]+",
+			"ConstraintDescription": "Must be a valid SG-ID of the form sg-xx or false "
 		},
 		"AssignStaticIP": {
 			"Type": "String",
@@ -117,6 +143,46 @@
 				"true"
 			]
 		},
+		"WantToHyperglanceFromCIDR": {
+			"Fn::Not": [{
+				"Fn::Equals": [
+					{
+						"Ref": "HyperglanceCIDR"
+					},
+					"false"
+				]
+			}]
+		},
+		"WantToHyperglanceFromSGID": {
+			"Fn::Not": [{
+				"Fn::Equals": [
+					{
+						"Ref": "HyperglanceSGID"
+					},
+					"false"
+				]
+			}]
+		},
+		"WantToSSHFromCIDR": {
+			"Fn::Not": [{
+				"Fn::Equals": [
+					{
+						"Ref": "SSHCIDR"
+					},
+					"false"
+				]
+			}]
+		},
+		"WantToSSHFromSGID": {
+			"Fn::Not": [{
+				"Fn::Equals": [
+					{
+						"Ref": "SSHSGID"
+					},
+					"false"
+				]
+			}]
+		},
 		"KmsKeyId": {
 			"Fn::Equals": [
 				{
@@ -144,7 +210,9 @@
 					"Parameters": [
 						"KeyName",
 						"HyperglanceCIDR",
+						"HyperglanceSGID",
 						"SSHCIDR",
+						"SSHSGID",
 						"EBSVolEncrypt",
 						"KmsKeyId"
 					]
@@ -185,8 +253,14 @@
 				"HyperglanceCIDR": {
 					"default": "Initial security group entry for TCP port 443. The IP range that can use Hyperglance."
 				},
+				"HyperglanceSGID": {
+					"default": "Initial security group entry for TCP port 443. The Security Group that can use Hyperglance."
+				},
 				"SSHCIDR": {
 					"default": "Initial security group entry for TCP port 22. The IP range that can SSH to the Hyperglance instance."
+				},
+				"SSHSGID": {
+					"default": "Initial security group entry for TCP port 22. The Security Group that can SSH to the Hyperglance instance."
 				},
 				"AssignPublicIP": {
 					"default": "Assign Public IP?"
@@ -384,25 +458,59 @@
 				"GroupDescription": "Hyperglance",
 				"VpcId": {
 					"Ref": "Vpcid"
-				},
-				"SecurityGroupIngress": [
-					{
-						"IpProtocol": "tcp",
-						"FromPort": "443",
-						"ToPort": "443",
-						"CidrIp": {
-							"Ref": "HyperglanceCIDR"
-						}
-					},
-					{
-						"IpProtocol": "tcp",
-						"FromPort": "22",
-						"ToPort": "22",
-						"CidrIp": {
-							"Ref": "SSHCIDR"
-						}
-					}
-				]
+				}
+			}
+		},
+		"HgSecurityGroupIngressHyperglanceCIDR": {
+			"Type" : "AWS::EC2::SecurityGroupIngress",
+			"Condition": "WantToHyperglanceFromCIDR",
+			"Properties" : {
+				"IpProtocol": "tcp",
+				"FromPort": "443",
+				"ToPort": "443",
+				"GroupId": { "Ref": "HgSecurityGroup" },
+				"CidrIp": {
+					"Ref": "HyperglanceCIDR"
+				}
+			}
+		},
+		"HgSecurityGroupIngressHyperglanceSGID": {
+			"Type" : "AWS::EC2::SecurityGroupIngress",
+			"Condition": "WantToHyperglanceFromSGID",
+			"Properties" : {
+				"IpProtocol": "tcp",
+				"FromPort": "443",
+				"ToPort": "443",
+				"GroupId": { "Ref": "HgSecurityGroup" },
+				"SourceSecurityGroupId": {
+					"Ref": "HyperglanceSGID"
+				}
+			}
+		},
+		"HgSecurityGroupIngressSSHCIDR": {
+			"Type" : "AWS::EC2::SecurityGroupIngress",
+			"Condition": "WantToSSHFromCIDR",
+			"Properties" : {
+				"IpProtocol": "tcp",
+				"FromPort": "22",
+				"ToPort": "22",
+				"GroupId": { "Ref": "HgSecurityGroup" },
+				"CidrIp": {
+					"Ref": "SSHCIDR"
+				}
+			}
+		},
+		"HgSecurityGroupIngressSSHSGID": {
+			"Type" : "AWS::EC2::SecurityGroupIngress",
+			"Condition": "WantToSSHFromSGID",
+			"Properties" : {
+				"IpProtocol": "tcp",
+				"FromPort": "22",
+				"ToPort": "22",
+				"GroupId": { "Ref": "HgSecurityGroup" },
+				"SourceSecurityGroupId": {
+					"Ref": "SSHSGID"
+				}
 			}
 		},
 		"HGRole": {
