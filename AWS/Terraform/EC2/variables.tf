@@ -5,8 +5,8 @@ variable "region" {
 
 variable "instance_type" {
   type        = string
-  default     = "t2.large"
-  description = "The EC2 instance type (default: t2.large)"
+  default     = "r5a.xlarge"
+  description = "The EC2 instance type (default: r5a.xlarge)"
 }
 
 variable "key_name" {
@@ -45,7 +45,7 @@ variable "assign_public_ip" {
 
 variable "subnet_id" {
   type        = string
-  description = "The subnet ID to deploy Hyperglance to. It must be in the matching VPC."
+  description = "The subnet ID to deploy Hyperglance into"
 }
 
 variable "ec2_instance_tags" {

@@ -67,7 +67,6 @@ resource "aws_iam_policy" "hg_policy" {
           "s3:Get*",
           "s3:ListAllMyBuckets",
           "s3:ListBucket",
-          "sts:AssumeRole",
           "sts:GetCallerIdentity",
           "workspaces:Describe*",
           "sns:List*",

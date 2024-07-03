@@ -5,7 +5,7 @@
 # [Required] AWS Region to deploy into
 region = "<AWS REGION>"
 
-# [Required] An existing subnet for the Hyperglance EC2 instance
+# [Required] The subnet ID to deploy Hyperglance into
 subnet_id = "<VPC SUBNET ID>"
 
 # [Required] Assign a public IP address to the EC2 instance?
@@ -24,7 +24,7 @@ allow_ssh_inbound_cidr   = ["<IP CIDR 1>", "<IP CIDR 2>"] # For SSH access e.g. 
 # key_name = "<ssh_keypair_name>"
 
 # [Optional] Instance type - https://support.hyperglance.com/knowledge/sizing-guide
-# instance_type = "t3.large"
+# instance_type = "r5a.xlarge"
 
 # [Optional] EC2 instance tags
 # ec2_instance_tags = {

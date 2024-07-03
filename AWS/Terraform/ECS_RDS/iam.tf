@@ -121,7 +121,6 @@ resource "aws_iam_policy" "hg_task_policy" {
           "s3:Get*",
           "s3:ListAllMyBuckets",
           "s3:ListBucket",
-          "sts:AssumeRole",
           "sts:GetCallerIdentity",
           "workspaces:Describe*",
           "sns:List*",
@@ -133,6 +132,11 @@ resource "aws_iam_policy" "hg_task_policy" {
         Effect   = "Allow"
         Resource = "*"
       },
+      {
+        Effect = "Allow"
+        Action = "sts:AssumeRole"
+        Resource = "arn:*:iam::*:role/HyperglanceReadOnly"
+      }
     ]
   })
 

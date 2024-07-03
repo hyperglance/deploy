@@ -11,14 +11,14 @@ resource "aws_instance" "hg_ec2" {
   associate_public_ip_address = var.assign_public_ip
   root_block_device {
     volume_size = "20"
-    volume_type = "gp2"
+    volume_type = "gp3"
     encrypted = true
   }
   ebs_block_device {
 
     device_name = "/dev/sdc"
     volume_size = "20"
-    volume_type = "gp2"
+    volume_type = "gp3"
     encrypted = true
     delete_on_termination = false
   }
