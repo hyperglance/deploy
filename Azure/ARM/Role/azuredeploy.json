@@ -1,0 +1,87 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "_generator": {
+      "name": "bicep",
+      "version": "0.29.45.22436",
+      "templateHash": "16551512531393632902"
+    }
+  },
+  "parameters": {
+    "actions": {
+      "type": "array",
+      "defaultValue": [
+        "*/read",
+        "Microsoft.Storage/storageAccounts/listKeys/action"
+      ],
+      "metadata": {
+        "description": "Array of actions for the roleDefinition"
+      }
+    },
+    "notActions": {
+      "type": "array",
+      "defaultValue": [
+        "Microsoft.Storage/*/delete",
+        "Microsoft.Storage/*/write"
+      ],
+      "metadata": {
+        "description": "Array of notActions for the roleDefinition"
+      }
+    },
+    "dataActions": {
+      "type": "array",
+      "defaultValue": [],
+      "metadata": {
+        "description": "Array of dataActions for the roleDefinition"
+      }
+    },
+    "notDataActions": {
+      "type": "array",
+      "defaultValue": [],
+      "metadata": {
+        "description": "Array of dataActions for the roleDefinition"
+      }
+    },
+    "roleName": {
+      "type": "string",
+      "defaultValue": "Hyperglance_Read_Only_role",
+      "metadata": {
+        "description": "Friendly name of the role definition"
+      }
+    },
+    "roleDescription": {
+      "type": "string",
+      "defaultValue": "Read only role for Hyperglance. See https://support.hyperglance.com/knowledge/how-to-enable-cost-collection-in-azure for more information",
+      "metadata": {
+        "description": "Detailed description of the role definition"
+      }
+    }
+  },
+  "variables": {
+    "roleDefName": "[guid(parameters('roleName'))]"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Authorization/roleDefinitions",
+      "apiVersion": "2022-04-01",
+      "name": "[variables('roleDefName')]",
+      "properties": {
+        "roleName": "[parameters('roleName')]",
+        "description": "[parameters('roleDescription')]",
+        "type": "customRole",
+        "permissions": [
+          {
+            "actions": "[parameters('actions')]",
+            "notActions": "[parameters('notActions')]",
+            "dataActions": "[parameters('dataActions')]",
+            "notDataActions": "[parameters('notDataActions')]"
+          }
+        ],
+        "assignableScopes": [
+          "[subscription().id]"
+        ]
+      }
+    }
+  ]
+}

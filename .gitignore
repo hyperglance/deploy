@@ -31,3 +31,5 @@ terraform.rc
 .dccache
 
 bitbucket-pipelines.yml
+
+Azure-Internal/temp
