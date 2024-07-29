@@ -32,4 +32,4 @@ terraform.rc
 
 bitbucket-pipelines.yml
 
-Azure-Internal/temp
+Azure-Internal

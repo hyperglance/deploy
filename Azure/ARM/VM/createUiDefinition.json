@@ -3,70 +3,59 @@
   "handler": "Microsoft.Azure.CreateUIDef",
   "version": "0.1.2-preview",
   "parameters": {
+    "config": {
+      "basics": {
+        "description": "![hyperglance](https://raw.githubusercontent.com/hyperglance/deploy/master/files/hyperglance_logo_light.svg)\n\n[Click here to learn more about what infrastructure is being deployed by this template](https://support.hyperglance.com/knowledge/azure-deployment-architecture-diagram)"
+      }
+    },
     "basics": [
       {
-        "name": "vmName",
-        "type": "Microsoft.Common.TextBox",
-        "label": "Virtual machine name",
-        "toolTip": "The name of the virtual machine",
-        "defaultValue": "Hyperglance",
-        "constraints": {
-          "required": true,
-          "regex": "^[a-z0-9A-Z-]{3,15}$",
-          "validationMessage": "The virtual machine Name must be between 3 and 15 characters long and contain letters, numbers and hyphens only."
-        },
-        "visible": true
+        "name": "virtualNetworkInfoBox",
+        "type": "Microsoft.Common.InfoBox",
+        "visible": true,
+        "options": {
+          "icon": "Info",
+          "text": "NOTE: The below options will only enable once you have selected or created a Resource Group.",
+          "uri": ""
+        }
       },
       {
-        "name": "adminUsername",
-        "type": "Microsoft.Compute.UserNameTextBox",
-        "label": "Username",
-        "toolTip": "Admin username for the virtual machine",
-        "osPlatform": "Linux",
-        "constraints": {
-          "required": true
-        },
-        "visible": true
-      },
-      {
-        "name": "credentials",
-        "type": "Microsoft.Compute.CredentialsCombo",
+        "name": "virtualNetwork",
+        "type": "Microsoft.Network.VirtualNetworkCombo",
         "label": {
-          "authenticationType": "Authentication type",
-          "password": "Password",
-          "confirmPassword": "Confirm password",
-          "sshPublicKey": "SSH public key"
+          "virtualNetwork": "Virtual network",
+          "subnets": "Subnets"
         },
         "toolTip": {
-          "authenticationType": "Type of authentication to use on the virtual machine. SSH Public Key is recommended",
-          "password": "Admin password for the virtual machine",
-          "sshPublicKey": "SSH Public Key for the virtual machine"
+          "virtualNetwork": "",
+          "subnets": ""
+        },
+        "defaultValue": {
+          "name": "hyperglance_vnet",
+          "addressPrefixSize": "/16"
         },
         "constraints": {
-          "required": true,
-          "customPasswordRegex": "^(?=.*[A-Z])(?=.*[.!@#$%^&*()-_=+])(?=.*[0-9])(?=.*[a-z]).{12,40}$",
-          "customValidationMessage": "Password must be at least 12 characters long, and contain upper case, lower case, number and symbol"
+          "minAddressPrefixSize": "/16"
         },
         "options": {
-          "hideConfirmation": false,
-          "hidePassword": false
+          "hideExisting": false
         },
-        "osPlatform": "Linux",
-        "visible": true
-      },
-      {
-        "name": "srcAddressPrefix",
-        "type": "Microsoft.Common.TextBox",
-        "label": "Source Address Prefix",
-        "defaultValue": "",
-        "toolTip": "Source address in CIDR notation to allow access from",
-        "constraints": {
-            "required": true,
-            "regex": "",
-            "validationMessage": ""
+        "subnets": {
+          "subnet1": {
+            "label": "Subnet",
+            "defaultValue": {
+              "name": "hyperglance_subnet_1",
+              "addressPrefixSize": "/24"
+            },
+            "constraints": {
+              "minAddressPrefixSize": "/24",
+              "minAddressCount": 12,
+              "requireContiguousAddresses": true
+            }
+          }
         },
         "visible": true
-     }
+      }
     ],
     "steps": [
       {
@@ -93,7 +82,7 @@
                     ],
                     "required": true
                 },
-                "visible": true
+                "visible": false
             },
             {
               "name": "secureBoot",
@@ -116,62 +105,236 @@
               "visible": false
             },
             {
+              "name": "vmNameInfoBox",
+              "type": "Microsoft.Common.InfoBox",
+              "visible": true,
+              "options": {
+                "icon": "Info",
+                "text": "Enter a name to assign to the virtual machine.\n\nNOTE: This is also used as the initial admin password to log into the Hyperglance web portal. We recommend changing this as soon as possible.\n\nClick here to see our guidance documentation on user management.",
+                "uri": "https://support.hyperglance.com/knowledge/managing-users-post-5.2"
+              }
+            },
+            {
+              "name": "vmName",
+              "type": "Microsoft.Common.TextBox",
+              "label": "Virtual machine name",
+              "toolTip": "The name of the virtual machine",
+              "defaultValue": "Hyperglance",
+              "constraints": {
+                "required": true,
+                "regex": "^[a-z0-9A-Z-]{3,15}$",
+                "validationMessage": "The virtual machine Name must be between 3 and 15 characters long and contain letters, numbers and hyphens only."
+              },
+              "visible": true
+            },
+            {
+              "name": "vmSizeInfoBox",
+              "type": "Microsoft.Common.InfoBox",
+              "visible": true,
+              "options": {
+                "icon": "Info",
+                "text": "Select an appropriate size for your deployment needs.  The current default typically works well for trial and production deployments up to 5000 qualified resources.\n\nClick here to see our guidance documentation on sizing.",
+                "uri": "https://support.hyperglance.com/knowledge/memory-usage"
+              }
+            },
+            {
                 "name": "vmSize",
                 "type": "Microsoft.Compute.SizeSelector",
                 "label": "Virtual machine size",
                 "toolTip": "The size of virtual machine to provision.",
                 "recommendedSizes": [
-                    "Standard_D2s_v3"
+                    "Standard_E4as_v4"
                 ],
                 "osPlatform": "Linux",
                 "count": "1"
             },
             {
-                "name": "publicIpAddress",
-                "type": "Microsoft.Network.PublicIpAddressCombo",
-                "label": {
-                    "publicIpAddress": "Public IP Address for the VM",
-                    "domainNameLabel": "DNS Prefix for the public IP Address"
-                },
-                "toolTip": {
-                    "publicIpAddress": "Public IP Address for the VM",
-                    "domainNameLabel": "DNS Prefix for the public IP Address, must be globally unique"
-                },
-                "defaultValue": {
-                  "publicIpAddressName": "[toLower(concat(basics('vmName'), '-ip-', take(replace(guid(), '-', ''), 6)))]",
-                  "domainNameLabel": "[toLower(concat(basics('vmName'), '-dn-', take(replace(guid(), '-', ''), 6)))]"
-                },
-                "options": {
-                    "hideExisting": true,
-                    "hideNone": true
-                },
-                "constraints": {
-                    "required": {
-                        "domainNameLabel": true
-                    }
+              "name": "publicIpAddressInfoBox",
+              "type": "Microsoft.Common.InfoBox",
+              "visible": true,
+              "options": {
+                "icon": "Info",
+                "text": "Create a new Public IP Address, select an existing one or opt for None.\n\nNOTE: If None is selected the Domain name label can be skipped. In this case, you are responsible for setting up an alternate method to access the Hyperglance web portal. For example: VPN or Bastion.\n\nFor the Domain Name Label enter a unique public domain name.",
+                "uri": ""
+              }
+            },
+            {
+              "name": "publicIpAddress",
+              "type": "Microsoft.Network.PublicIpAddressCombo",
+              "label": {
+                "publicIpAddress": "Public IP address",
+                "domainNameLabel": "Domain name label"
+              },
+              "toolTip": {
+                "publicIpAddress": "",
+                "domainNameLabel": ""
+              },
+              "defaultValue": {
+                "publicIpAddressName": "hyperglance-public-ip",
+                "domainNameLabel": ""
+              },
+              "constraints": {
+                "required": {
+                  "domainNameLabel": false
                 }
+              },
+              "options": {
+                "hideNone": false,
+                "hideDomainNameLabel": false,
+                "hideExisting": false
+              },
+              "visible": true
+            },
+            {
+              "name": "sshSection",
+              "type": "Microsoft.Common.Section",
+              "label": "SSH Details",
+              "elements": [
+                {
+                  "name": "adminUsernameInfoBox",
+                  "type": "Microsoft.Common.InfoBox",
+                  "visible": true,
+                  "options": {
+                    "icon": "Info",
+                    "text": "Note the below section sets up the linux management user. These details are not used to access the Hyperglance web portal",
+                    "uri": ""
+                  }
+                },
+                {
+                  "name": "adminUsername",
+                  "type": "Microsoft.Compute.UserNameTextBox",
+                  "label": "SSH Username",
+                  "toolTip": "Admin username for the virtual machine",
+                  "osPlatform": "Linux",
+                  "constraints": {
+                    "required": true
+                  },
+                  "visible": true
+                },
+                {
+                  "name": "credentials",
+                  "type": "Microsoft.Compute.CredentialsCombo",
+                  "label": {
+                    "authenticationType": "Authentication type",
+                    "password": "Password",
+                    "confirmPassword": "Confirm password",
+                    "sshPublicKey": "SSH public key"
+                  },
+                  "toolTip": {
+                    "authenticationType": "Type of authentication to use on the virtual machine. SSH Public Key is recommended",
+                    "password": "Admin password for the virtual machine",
+                    "sshPublicKey": "SSH Public Key for the virtual machine"
+                  },
+                  "constraints": {
+                    "required": true,
+                    "customPasswordRegex": "^(?=.*[A-Z])(?=.*[.!@#$%^&*()-_=+])(?=.*[0-9])(?=.*[a-z]).{12,40}$",
+                    "customValidationMessage": "Password must be at least 12 characters long, and contain upper case, lower case, number and symbol"
+                  },
+                  "options": {
+                    "hideConfirmation": false,
+                    "hidePassword": false
+                  },
+                  "osPlatform": "Linux",
+                  "visible": true
+                }
+              ],
+              "visible": true
+            },
+            {
+              "name": "inboundAccessSection",
+              "type": "Microsoft.Common.Section",
+              "label": "Inbound Access",
+              "elements": [
+                {
+                    "name": "allowedSrcAddressesHTTPSInfoBox",
+                    "type": "Microsoft.Common.InfoBox",
+                    "visible": true,
+                    "options": {
+                      "icon": "Info",
+                      "text": "Access to Hyperglance web portal will be permitted only from the address ranges entered. Enter a range using CIDR notation (e.g. 192.168.4.4/32).\n\nIf you you are not sure, enter your own IP address with /32 on the the end.\n\nClick here to find your IP address by visiting: https://ipv4.icanhazip.com\n\nMultiple IP address ranges can be specified, separated by a comma (e.g. 192.168.4.4/32,10.10.10.1/24)",
+                      "uri": "https://ipv4.icanhazip.com/"
+                    }
+                  },            
+                  {
+                    "name": "allowedSrcAddressesHTTPS",
+                    "type": "Microsoft.Common.TextBox",
+                    "label": "Allowed HTTPS source addresses",
+                    "defaultValue": "",
+                    "toolTip": "Source addresses in CIDR notation to allow access from",
+                    "constraints": {
+                        "required": true,
+                        "regex": "^([0-9]{1,3}\\.){3}[0-9]{1,3}\\/([0-9]|[1-2][0-9]|3[0-2])(,(?:[0-9]{1,3}\\.){3}[0-9]{1,3}\\/([0-9]|[1-2][0-9]|3[0-2]))*$",
+                        "validationMessage": "The value must be a valid ip in cidr notation. Eg, 192.168.4.4/32"
+                    },
+                    "visible": true
+                 },
+                 {
+                  "name": "enableSSHInfoBox",
+                  "type": "Microsoft.Common.InfoBox",
+                  "visible": true,
+                  "options": {
+                    "icon": "Info",
+                    "text": "Port 22 (SSH) is disabled by default for safety. SSH access may be used to make advanced Hyperglance config changes or to update the software version.  If you enable SSH you will be prompted for a CIDR range to limit access.",
+                    "uri": ""
+                  }
+                },
+                {
+                  "name": "enableSSH",
+                  "type": "Microsoft.Common.CheckBox",
+                  "label": "I want to allow port 22 (SSH)",
+                  "constraints": {
+                    "required": false,
+                    "validationMessage": ""
+                  }
+                },          
+                {
+                  "name": "allowedSrcAddressesSSH",
+                  "type": "Microsoft.Common.TextBox",
+                  "label": "Allowed SSH source addresses",
+                  "defaultValue": "",
+                  "toolTip": "Source addresses in CIDR notation to allow access from",
+                  "constraints": {
+                      "required": "[bool(steps('VirtualMachineConfig').inboundAccessSection.enableSSH)]",
+                      "regex": "^(([0-9]{1,3}\\.){3}[0-9]{1,3}\\/([0-9]|[1-2][0-9]|3[0-2])(,(?:[0-9]{1,3}\\.){3}[0-9]{1,3}\\/([0-9]|[1-2][0-9]|3[0-2]))*)?$",
+                      "validationMessage": "This value is required if you have ticked Enable port 22 from the network security group.\n\nThe value must be a valid ip in cidr notation. Eg, 192.168.4.4/32"
+                  },
+                  "visible": "[steps('VirtualMachineConfig').inboundAccessSection.enableSSH]"
+               }
+              ],
+              "visible": true
             }
         ]
       }
     ],
     "outputs": {
-      "vmName": "[basics('vmName')]",
+      "virtualNetworkNewOrExisting": "[basics('virtualNetwork').newOrExisting]",
+      "virtualNetworkName": "[basics('virtualNetwork').name]",
+      "addressPrefixes": "[basics('virtualNetwork').addressPrefixes]",
+      "subnetName": "[basics('virtualNetwork').subnets.subnet1.name]",
+      "subnetPrefix": "[basics('virtualNetwork').subnets.subnet1.addressPrefix]",
+      "virtualNetworkResourceGroupName": "[basics('virtualNetwork').resourceGroup]",
+
+      "vmName": "[steps('VirtualMachineConfig').vmName]",
       "sku": "[steps('VirtualMachineConfig').OSVersion]",
       "vmSize": "[steps('VirtualMachineConfig').vmSize]",
-      "adminUsername": "[basics('adminUsername')]",
-      "authenticationType": "[basics('credentials').authenticationType]",
-      "adminPasswordOrKey": "[if(equals(basics('credentials').authenticationType, 'password'), basics('credentials').password, basics('credentials').sshPublicKey)]",
+      "adminUsername": "[steps('VirtualMachineConfig').sshSection.adminUsername]",
+      "authenticationType": "[steps('VirtualMachineConfig').sshSection.credentials.authenticationType]",
+      "adminPasswordOrKey": "[if(equals(steps('VirtualMachineConfig').sshSection.credentials.authenticationType, 'password'), steps('VirtualMachineConfig').sshSection.credentials.password, steps('VirtualMachineConfig').sshSection.credentials.sshPublicKey)]",
       "secureBoot": "[if(equals(steps('VirtualMachineConfig').secureBoot, true), 'true', 'false')]",
       "vTPM": "[if(equals(steps('VirtualMachineConfig').vTPM, true), 'true', 'false')]",
       "location": "[location()]",
-      "dnsLabelPrefix": "[steps('VirtualMachineConfig').publicIpAddress.domainNameLabel]",
+      "nicName": "[toLower(concat(steps('VirtualMachineConfig').vmName, '-nic-', take(replace(guid(), '-', ''), 6)))]",
+      
+      "allowedSrcAddressesHTTPS": "[split(steps('VirtualMachineConfig').inboundAccessSection.allowedSrcAddressesHTTPS, ',')]",
+      "enableSSH": "[steps('VirtualMachineConfig').inboundAccessSection.enableSSH]",
+      "allowedSrcAddressesSSH": "[split(steps('VirtualMachineConfig').inboundAccessSection.allowedSrcAddressesSSH, ',')]",
+      "networkSecurityGroupName": "[toLower(concat(steps('VirtualMachineConfig').vmName, '-nsg-', take(replace(guid(), '-', ''), 6)))]",
       "publicIpName": "[steps('VirtualMachineConfig').publicIpAddress.name]",
+      "publicIpDns": "[steps('VirtualMachineConfig').publicIpAddress.domainNameLabel]",
+      "publicIpResourceGroupName": "[steps('VirtualMachineConfig').publicIpAddress.resourceGroup]",
       "publicIPAllocationMethod": "[steps('VirtualMachineConfig').publicIpAddress.publicIPAllocationMethod]",
       "publicIpSku": "[steps('VirtualMachineConfig').publicIpAddress.sku]",
-      "nicName": "[toLower(concat(basics('vmName'), '-nic-', take(replace(guid(), '-', ''), 6)))]",
-      "virtualNetworkName": "[toLower(concat(basics('vmName'), '-vnet-', take(replace(guid(), '-', ''), 6)))]",
-      "networkSecurityGroupName": "[toLower(concat(basics('vmName'), '-nsg-', take(replace(guid(), '-', ''), 6)))]",
-      "srcAddressPrefix": "[basics('srcAddressPrefix')]"
+      "publicIpNewOrExisting": "[steps('VirtualMachineConfig').publicIpAddress.newOrExistingOrNone]"
     }
   }
 }

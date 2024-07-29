@@ -1,11 +1,12 @@
 {
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "languageVersion": "2.0",
   "contentVersion": "1.0.0.0",
   "metadata": {
     "_generator": {
       "name": "bicep",
-      "version": "0.29.45.22436",
-      "templateHash": "3411429984668136794"
+      "version": "0.29.47.4906",
+      "templateHash": "11267430643413565788"
     }
   },
   "parameters": {
@@ -82,7 +83,7 @@
         "description": "Location for all resources."
       }
     },
-    "dnsLabelPrefix": {
+    "publicIpDns": {
       "type": "string",
       "defaultValue": "[toLower(format('{0}-{1}', parameters('vmName'), uniqueString(resourceGroup().id)))]",
       "metadata": {
@@ -98,7 +99,6 @@
     },
     "publicIPAllocationMethod": {
       "type": "string",
-      "defaultValue": "Dynamic",
       "allowedValues": [
         "Dynamic",
         "Static"
@@ -109,7 +109,6 @@
     },
     "publicIpSku": {
       "type": "string",
-      "defaultValue": "Basic",
       "allowedValues": [
         "Basic",
         "Standard"
@@ -127,7 +126,6 @@
     },
     "virtualNetworkName": {
       "type": "string",
-      "defaultValue": "vnet",
       "metadata": {
         "description": "Name of the virtual network"
       }
@@ -146,10 +144,87 @@
         "description": "Custom Attestation Endpoint to attest to. By default, MAA and ASC endpoints are empty and Azure values are populated based on the location of the VM."
       }
     },
-    "srcAddressPrefix": {
+    "allowedSrcAddressesHTTPS": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "metadata": {
+        "description": "Source address in CIDR notation to allow access to HTTPS (port 443) from. Eg, 12.34.56.78/32"
+      }
+    },
+    "allowedSrcAddressesSSH": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "defaultValue": [
+        "none"
+      ],
+      "metadata": {
+        "description": "Source address in CIDR notation to allow access to SSH (port 22) from. Eg, 12.34.56.78/32"
+      }
+    },
+    "addressPrefixes": {
+      "type": "array",
+      "metadata": {
+        "description": ""
+      }
+    },
+    "subnetName": {
       "type": "string",
       "metadata": {
-        "description": "Source address in CIDR notation to allow access from. Eg, 12.34.56.78/32"
+        "description": ""
+      }
+    },
+    "subnetPrefix": {
+      "type": "string",
+      "metadata": {
+        "description": ""
+      }
+    },
+    "virtualNetworkNewOrExisting": {
+      "type": "string",
+      "defaultValue": "new",
+      "allowedValues": [
+        "new",
+        "existing"
+      ],
+      "metadata": {
+        "description": "Determines whether or not a new virtual network should be provisioned."
+      }
+    },
+    "virtualNetworkResourceGroupName": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().name]",
+      "metadata": {
+        "description": "Name of the resource group for the existing virtual network"
+      }
+    },
+    "publicIpNewOrExisting": {
+      "type": "string",
+      "defaultValue": "new",
+      "allowedValues": [
+        "new",
+        "existing",
+        "none"
+      ],
+      "metadata": {
+        "description": "Determines whether or not a new public ip should be provisioned."
+      }
+    },
+    "publicIpResourceGroupName": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().name]",
+      "metadata": {
+        "description": "Name of the resource group for the public ip address"
+      }
+    },
+    "enableSSH": {
+      "type": "bool",
+      "defaultValue": false,
+      "metadata": {
+        "description": ""
       }
     }
   },
@@ -192,15 +267,11 @@
         "version": "latest"
       }
     },
-    "addressPrefix": "10.0.0.0/16",
     "disableAlerts": "false",
     "extensionName": "GuestAttestation",
     "extensionPublisher": "Microsoft.Azure.Security.LinuxAttestation",
     "extensionVersion": "1.0",
     "maaTenantName": "GuestAttestation",
-    "subnetName": "Subnet",
-    "subnetPrefix": "10.0.0.0/24",
-    "subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), variables('subnetName'))]",
     "useAlternateToken": "false",
     "linuxConfiguration": {
       "disablePasswordAuthentication": true,
@@ -212,10 +283,45 @@
           }
         ]
       }
-    }
+    },
+    "publicIpAddressId": {
+      "id": "[resourceId(parameters('publicIpResourceGroupName'), 'Microsoft.Network/publicIPAddresses', parameters('publicIpName'))]"
+    },
+    "baseNSGRules": [
+      {
+        "name": "Allow_Inbound_HTTPS",
+        "properties": {
+          "priority": 1000,
+          "access": "Allow",
+          "direction": "Inbound",
+          "destinationPortRange": "443",
+          "protocol": "Tcp",
+          "sourcePortRange": "*",
+          "sourceAddressPrefixes": "[parameters('allowedSrcAddressesHTTPS')]",
+          "destinationAddressPrefix": "*"
+        }
+      }
+    ],
+    "sshRule": [
+      {
+        "name": "Allow_Inbound_SSH",
+        "properties": {
+          "priority": 1100,
+          "access": "Allow",
+          "direction": "Inbound",
+          "destinationPortRange": "22",
+          "protocol": "Tcp",
+          "sourcePortRange": "*",
+          "sourceAddressPrefixes": "[parameters('allowedSrcAddressesSSH')]",
+          "destinationAddressPrefix": "*"
+        }
+      }
+    ],
+    "nsgRules": "[concat(variables('baseNSGRules'), if(parameters('enableSSH'), variables('sshRule'), createArray()))]"
   },
-  "resources": [
-    {
+  "resources": {
+    "publicIp": {
+      "condition": "[equals(parameters('publicIpNewOrExisting'), 'new')]",
       "type": "Microsoft.Network/publicIPAddresses",
       "apiVersion": "2022-05-01",
       "name": "[parameters('publicIpName')]",
@@ -226,78 +332,40 @@
       "properties": {
         "publicIPAllocationMethod": "[parameters('publicIPAllocationMethod')]",
         "dnsSettings": {
-          "domainNameLabel": "[parameters('dnsLabelPrefix')]"
+          "domainNameLabel": "[parameters('publicIpDns')]"
         }
       }
     },
-    {
-      "type": "Microsoft.Network/networkSecurityGroups",
-      "apiVersion": "2022-05-01",
-      "name": "[parameters('networkSecurityGroupName')]",
-      "location": "[parameters('location')]",
-      "properties": {
-        "securityRules": [
-          {
-            "name": "SSH",
-            "properties": {
-              "priority": 1000,
-              "access": "Allow",
-              "direction": "Inbound",
-              "destinationPortRange": "22",
-              "protocol": "Tcp",
-              "sourcePortRange": "*",
-              "sourceAddressPrefix": "[parameters('srcAddressPrefix')]",
-              "destinationAddressPrefix": "*"
-            }
-          },
-          {
-            "name": "HTTPS",
-            "properties": {
-              "protocol": "Tcp",
-              "sourcePortRange": "*",
-              "destinationPortRange": "443",
-              "sourceAddressPrefix": "[parameters('srcAddressPrefix')]",
-              "destinationAddressPrefix": "*",
-              "access": "Allow",
-              "priority": 1001,
-              "direction": "Inbound",
-              "sourcePortRanges": [],
-              "destinationPortRanges": [],
-              "sourceAddressPrefixes": [],
-              "destinationAddressPrefixes": []
-            }
-          }
-        ]
-      }
-    },
-    {
+    "virtualNetwork": {
+      "condition": "[equals(parameters('virtualNetworkNewOrExisting'), 'new')]",
       "type": "Microsoft.Network/virtualNetworks",
       "apiVersion": "2022-05-01",
       "name": "[parameters('virtualNetworkName')]",
       "location": "[parameters('location')]",
       "properties": {
         "addressSpace": {
-          "addressPrefixes": [
-            "[variables('addressPrefix')]"
-          ]
+          "addressPrefixes": "[parameters('addressPrefixes')]"
         },
         "subnets": [
           {
-            "name": "[variables('subnetName')]",
+            "name": "[parameters('subnetName')]",
             "properties": {
-              "addressPrefix": "[variables('subnetPrefix')]",
-              "networkSecurityGroup": {
-                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroupName'))]"
-              }
+              "addressPrefix": "[parameters('subnetPrefix')]"
             }
           }
         ]
-      },
-      "dependsOn": [
-        "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroupName'))]"
-      ]
+      }
     },
-    {
+    "networkSecurityGroup": {
+      "type": "Microsoft.Network/networkSecurityGroups",
+      "apiVersion": "2022-05-01",
+      "name": "[parameters('networkSecurityGroupName')]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "securityRules": "[variables('nsgRules')]"
+      }
+    },
+    "nic": {
       "type": "Microsoft.Network/networkInterfaces",
       "apiVersion": "2022-05-01",
       "name": "[parameters('nicName')]",
@@ -308,22 +376,22 @@
             "name": "ipconfig1",
             "properties": {
               "privateIPAllocationMethod": "Dynamic",
-              "publicIPAddress": {
-                "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIpName'))]"
-              },
+              "publicIPAddress": "[if(not(equals(parameters('publicIpNewOrExisting'), 'none')), variables('publicIpAddressId'), null())]",
               "subnet": {
-                "id": "[variables('subnetRef')]"
+                "id": "[resourceId(parameters('virtualNetworkResourceGroupName'), 'Microsoft.Network/virtualNetworks/subnets/', parameters('virtualNetworkName'), parameters('subnetName'))]"
               }
             }
           }
-        ]
+        ],
+        "networkSecurityGroup": {
+          "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroupName'))]"
+        }
       },
       "dependsOn": [
-        "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIpName'))]",
-        "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]"
+        "networkSecurityGroup"
       ]
     },
-    {
+    "vm": {
       "type": "Microsoft.Compute/virtualMachines",
       "apiVersion": "2022-03-01",
       "name": "[parameters('vmName')]",
@@ -371,10 +439,10 @@
         "product": "hyperglance-dynamic-topology"
       },
       "dependsOn": [
-        "[resourceId('Microsoft.Network/networkInterfaces', parameters('nicName'))]"
+        "nic"
       ]
     },
-    {
+    "vmExtension": {
       "condition": "[and(parameters('vTPM'), parameters('secureBoot'))]",
       "type": "Microsoft.Compute/virtualMachines/extensions",
       "apiVersion": "2022-03-01",
@@ -401,14 +469,14 @@
         }
       },
       "dependsOn": [
-        "[resourceId('Microsoft.Compute/virtualMachines', parameters('vmName'))]"
+        "vm"
       ]
     }
-  ],
+  },
   "outputs": {
     "hostname": {
       "type": "string",
-      "value": "[reference(resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIpName')), '2022-05-01').dnsSettings.fqdn]"
+      "value": "[reference('publicIp').dnsSettings.fqdn]"
     }
   }
 }
