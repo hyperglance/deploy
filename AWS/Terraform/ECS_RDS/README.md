@@ -4,6 +4,8 @@
   <img alt="Hyperglance logo" src="https://raw.githubusercontent.com/hyperglance/deploy/master/files/hyperglance_logo_dark.svg">
 </picture>
 
+> **_NOTE:_**  The ECS-based deployments are not regularly maintained. As such you may experience issues when using them. We hope this will serve as an example for your own IaC efforts and if you are not able to resolve any problems yourself feel free to reach out to our support desk. For the best experience we recommend you use an actively maintained deployment option, see: [EC2](../EC2) or our [Helm chart](https://github.com/hyperglance/helm-chart) which supports EKS and other k8s distributions.
+
 # Hyperglance deployment
 
 > Enable Hyperglance to automate, fix and optimize your cloud.

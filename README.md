@@ -7,7 +7,7 @@
 # Hyperglance Deployment
 
 * [Deploy to AWS](#deploy-to-aws)
-* [Deploy to Kubernetes](https://github.com/hyperglance/kubernetes)
+* [Deploy to Kubernetes using Helm](https://github.com/hyperglance/helm-chart)
 
 ## Deploy to AWS
 
@@ -21,6 +21,8 @@
 
 ### ECS
 
+> **_NOTE:_**  The ECS-based deployments are not regularly maintained. As such you may experience issues when using them. We hope this will serve as an example for your own IaC efforts and if you are not able to resolve any problems yourself feel free to reach out to our support desk. For the best experience we recommend you use an actively maintained deployment option, see: [EC2 Terraform](AWS/Terraform/EC2), [EC2 Cloudformation](AWS/Cloudformation/EC2)  or our [Helm chart](https://github.com/hyperglance/helm-chart) which supports EKS and other k8s distributions.
+
 1. [Sign up for a license](https://www.hyperglance.com/get-started/)
 
 2. Choose your deployment method - [ECS using RDS](AWS/Terraform/ECS_RDS) or [ECS only](AWS/Terraform/ECS)
@@ -31,7 +33,7 @@
 
 1. [Sign up for a license](https://www.hyperglance.com/get-started/)
 
-2. [EKS](https://github.com/hyperglance/kubernetes) or [EKS with FARGATE](https://github.com/hyperglance/kubernetes/EKS_Fargate)
+2. See our dedicated [helm chart repository](https://github.com/hyperglance/helm-chart) for detailed deployment information.
 
 3. [Apply your key into Hyperglance](https://support.hyperglance.com/knowledge/how-to-apply-a-new-license)
 
