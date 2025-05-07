@@ -5,8 +5,8 @@
   "metadata": {
     "_generator": {
       "name": "bicep",
-      "version": "0.29.47.4906",
-      "templateHash": "11267430643413565788"
+      "version": "0.35.1.17967",
+      "templateHash": "7222508110980715281"
     }
   },
   "parameters": {
@@ -99,6 +99,7 @@
     },
     "publicIPAllocationMethod": {
       "type": "string",
+      "nullable": true,
       "allowedValues": [
         "Dynamic",
         "Static"
@@ -109,6 +110,7 @@
     },
     "publicIpSku": {
       "type": "string",
+      "nullable": true,
       "allowedValues": [
         "Basic",
         "Standard"
@@ -226,6 +228,13 @@
       "metadata": {
         "description": ""
       }
+    },
+    "enableHTTPS": {
+      "type": "bool",
+      "defaultValue": false,
+      "metadata": {
+        "description": ""
+      }
     }
   },
   "variables": {
@@ -317,7 +326,7 @@
         }
       }
     ],
-    "nsgRules": "[concat(variables('baseNSGRules'), if(parameters('enableSSH'), variables('sshRule'), createArray()))]"
+    "nsgRules": "[concat(if(parameters('enableHTTPS'), variables('baseNSGRules'), createArray()), if(parameters('enableSSH'), variables('sshRule'), createArray()))]"
   },
   "resources": {
     "publicIp": {
@@ -476,7 +485,7 @@
   "outputs": {
     "hostname": {
       "type": "string",
-      "value": "[reference('publicIp').dnsSettings.fqdn]"
+      "value": "[if(and(equals(parameters('publicIpNewOrExisting'), 'new'), not(equals(parameters('publicIPAllocationMethod'), null()))), reference('publicIp').dnsSettings.fqdn, '')]"
     }
   }
 }

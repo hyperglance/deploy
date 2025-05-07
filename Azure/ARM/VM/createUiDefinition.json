@@ -154,7 +154,7 @@
               "visible": true,
               "options": {
                 "icon": "Info",
-                "text": "Create a new Public IP Address, select an existing one or opt for None.\n\nNOTE: If None is selected the Domain name label can be skipped. In this case, you are responsible for setting up an alternate method to access the Hyperglance web portal. For example: VPN or Bastion.\n\nFor the Domain Name Label enter a unique public domain name.",
+                "text": "Create a new Public IP Address, select an existing one or opt for None. If a Public IP is used, you MUST specify a DNS name.\n\nNOTE: If None is selected the Domain name label can be skipped. In this case, you are responsible for setting up an alternate method to access the Hyperglance web portal. For example: VPN or Bastion.\n\nFor the Domain Name Label enter a unique public domain name.",
                 "uri": ""
               }
             },
@@ -175,7 +175,8 @@
               },
               "constraints": {
                 "required": {
-                  "domainNameLabel": false
+                  "domainNameLabel": false,
+                  "publicIpAddress": false
                 }
               },
               "options": {
@@ -246,9 +247,29 @@
               "label": "Inbound Access",
               "elements": [
                 {
+                  "name": "enableHTTPSInfoBox",
+                  "type": "Microsoft.Common.InfoBox",
+                  "visible": true,
+                  "options": {
+                    "icon": "Info",
+                    "text": "Port 443 (HTTPS) is enabled by default. If you have opted not to add a public ip address to this instance, uncheck this box.",
+                    "uri": ""
+                  }
+                },
+                {
+                  "name": "enableHTTPS",
+                  "type": "Microsoft.Common.CheckBox",
+                  "label": "Allow port 443 (HTTPS)",
+                  "defaultValue": true,
+                  "constraints": {
+                    "required": false,
+                    "validationMessage": ""
+                  }
+                },                
+                {
                     "name": "allowedSrcAddressesHTTPSInfoBox",
                     "type": "Microsoft.Common.InfoBox",
-                    "visible": true,
+                    "visible": "[bool(steps('VirtualMachineConfig').inboundAccessSection.enableHTTPS)]",
                     "options": {
                       "icon": "Info",
                       "text": "Access to Hyperglance web portal will be permitted only from the address ranges entered. Enter a range using CIDR notation (e.g. 192.168.4.4/32).\n\nIf you you are not sure, enter your own IP address with /32 on the the end.\n\nClick here to find your IP address by visiting: https://ipv4.icanhazip.com\n\nMultiple IP address ranges can be specified, separated by a comma (e.g. 192.168.4.4/32,10.10.10.1/24)",
@@ -262,11 +283,11 @@
                     "defaultValue": "",
                     "toolTip": "Source addresses in CIDR notation to allow access from",
                     "constraints": {
-                        "required": true,
+                        "required": "[bool(steps('VirtualMachineConfig').inboundAccessSection.enableHTTPS)]",
                         "regex": "^([0-9]{1,3}\\.){3}[0-9]{1,3}\\/([0-9]|[1-2][0-9]|3[0-2])(,(?:[0-9]{1,3}\\.){3}[0-9]{1,3}\\/([0-9]|[1-2][0-9]|3[0-2]))*$",
                         "validationMessage": "The value must be a valid ip in cidr notation. Eg, 192.168.4.4/32"
                     },
-                    "visible": true
+                    "visible": "[bool(steps('VirtualMachineConfig').inboundAccessSection.enableHTTPS)]"
                  },
                  {
                   "name": "enableSSHInfoBox",
@@ -281,7 +302,7 @@
                 {
                   "name": "enableSSH",
                   "type": "Microsoft.Common.CheckBox",
-                  "label": "I want to allow port 22 (SSH)",
+                  "label": "Allow port 22 (SSH)",
                   "constraints": {
                     "required": false,
                     "validationMessage": ""
@@ -298,7 +319,7 @@
                       "regex": "^(([0-9]{1,3}\\.){3}[0-9]{1,3}\\/([0-9]|[1-2][0-9]|3[0-2])(,(?:[0-9]{1,3}\\.){3}[0-9]{1,3}\\/([0-9]|[1-2][0-9]|3[0-2]))*)?$",
                       "validationMessage": "This value is required if you have ticked Enable port 22 from the network security group.\n\nThe value must be a valid ip in cidr notation. Eg, 192.168.4.4/32"
                   },
-                  "visible": "[steps('VirtualMachineConfig').inboundAccessSection.enableSSH]"
+                  "visible": "[bool(steps('VirtualMachineConfig').inboundAccessSection.enableSSH)]"
                }
               ],
               "visible": true
@@ -327,6 +348,7 @@
       
       "allowedSrcAddressesHTTPS": "[split(steps('VirtualMachineConfig').inboundAccessSection.allowedSrcAddressesHTTPS, ',')]",
       "enableSSH": "[steps('VirtualMachineConfig').inboundAccessSection.enableSSH]",
+      "enableHTTPS": "[steps('VirtualMachineConfig').inboundAccessSection.enableHTTPS]",
       "allowedSrcAddressesSSH": "[split(steps('VirtualMachineConfig').inboundAccessSection.allowedSrcAddressesSSH, ',')]",
       "networkSecurityGroupName": "[toLower(concat(steps('VirtualMachineConfig').vmName, '-nsg-', take(replace(guid(), '-', ''), 6)))]",
       "publicIpName": "[steps('VirtualMachineConfig').publicIpAddress.name]",

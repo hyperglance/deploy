@@ -49,14 +49,14 @@ param publicIpName string = 'hyperglance-public-ip'
   'Dynamic'
   'Static'
 ])
-param publicIPAllocationMethod string
+param publicIPAllocationMethod string? // adding ? to a type allows it to be nullable
 
 @description('SKU for the Public IP used to access the virtual machine.')
 @allowed([
   'Basic'
   'Standard'
 ])
-param publicIpSku string
+param publicIpSku string? // adding ? to a type allows it to be nullable
 
 @description('Name of the network interface')
 param nicName string = 'nic'
@@ -171,6 +171,9 @@ var publicIpAddressId = {
 @description('')
 param enableSSH bool = false
 
+@description('')
+param enableHTTPS bool = false
+
 var baseNSGRules = [
   {
     name: 'Allow_Inbound_HTTPS'
@@ -204,7 +207,7 @@ var sshRule = [
 ]
 
 var nsgRules = concat(
-  baseNSGRules,
+  (enableHTTPS ? baseNSGRules : []),
   (enableSSH ? sshRule : [])
 )
 
@@ -344,4 +347,10 @@ resource vmExtension 'Microsoft.Compute/virtualMachines/extensions@2022-03-01' =
   }
 }
 
-output hostname string = publicIp.properties.dnsSettings.fqdn
+// output hostname string = publicIp.properties.dnsSettings.fqdn
+
+// empty
+output hostname string = (publicIpNewOrExisting == 'new' && publicIPAllocationMethod != null) ? publicIp.properties.dnsSettings.fqdn : ''
+
+// null
+// output hostname string = (publicIpNewOrExisting == 'new' && publicIPAllocationMethod != null) ? publicIp.properties.dnsSettings.fqdn : null
