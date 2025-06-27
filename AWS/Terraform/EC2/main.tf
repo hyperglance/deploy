@@ -10,14 +10,14 @@ resource "aws_instance" "hg_ec2" {
   vpc_security_group_ids      = [aws_security_group.hg_sg.id]
   associate_public_ip_address = var.assign_public_ip
   root_block_device {
-    volume_size = "20"
+    volume_size = var.root_volume_size
     volume_type = "gp3"
     encrypted = true
   }
   ebs_block_device {
 
     device_name = "/dev/sdc"
-    volume_size = "20"
+    volume_size = var.data_volume_size
     volume_type = "gp3"
     encrypted = true
     delete_on_termination = false

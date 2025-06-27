@@ -48,6 +48,18 @@ variable "subnet_id" {
   description = "The subnet ID to deploy Hyperglance into"
 }
 
+variable "root_volume_size" {
+  type        = number
+  description = "The size of the root volume"
+  default = 30
+}
+
+variable "data_volume_size" {
+  type        = number
+  description = "The size of the data volume"
+  default = 30
+}
+
 variable "ec2_instance_tags" {
   type        = map(string)
   description = "Custom tags to be merged with var.tags for EC2 instance"
@@ -72,30 +84,30 @@ variable "image_ids" {
   # use 'var.image_ids[var.region]' to grab appropriate id
   type = map(any)
   default = {
-			"af-south-1" = "ami-01de7c1b2dd34b4f3"
-			"ap-east-1" = "ami-0cc8e5125dadab16b"
-			"ap-northeast-1" = "ami-0b7df27c243d3cb2a"
-			"ap-northeast-2" = "ami-097d64b8d10b45ca7"
-			"ap-northeast-3" = "ami-009fac17307129b6a"
-			"ap-south-1" = "ami-0703d8950918c3342"
-			"ap-southeast-1" = "ami-04c23c11514e69a17"
-			"ap-southeast-2" = "ami-07c8bf8768a75efaf"
-			"ap-southeast-3" = "ami-091c0f57223cff389"
-			"ca-central-1" = "ami-0bab25cee8075de11"
-			"eu-central-1" = "ami-0b26dbbe7858dcc37"
-			"eu-north-1" = "ami-08ccaca1635df036c"
-			"eu-south-1" = "ami-089fbd0fbe3f636b9"
-			"eu-west-1" = "ami-05b3c13d985108da4"
-			"eu-west-2" = "ami-02d5ed099f70c4e54"
-			"eu-west-3" = "ami-02e9acf383b1faac1"
-			"me-south-1" = "ami-07eeba299b28434ab"
-			"sa-east-1" = "ami-046515badec034b95"
-			"us-east-1" = "ami-010999edff6e1c567"
-			"us-east-2" = "ami-034418e82584dcb37"
-			"us-west-1" = "ami-032f26b9578298aee"
-			"us-west-2" = "ami-0db4999cf765ae1c2"
-			"us-gov-east-1" = "ami-0de3de415851f126e"
-			"us-gov-west-1" = "ami-03ac256c317cd9863"
+			"af-south-1" = "ami-0408d7f31246ae730"
+			"ap-east-1" = "ami-03d99a9dbf439c067"
+			"ap-northeast-1" = "ami-0f3f5309e2e348024"
+			"ap-northeast-2" = "ami-05dc8175e8659213d"
+			"ap-northeast-3" = "ami-00cedbe44e77a6ebb"
+			"ap-south-1" = "ami-09ce207ecb19ebd6b"
+			"ap-southeast-1" = "ami-08942c8c2141a462a"
+			"ap-southeast-2" = "ami-027f37aa6b38b392a"
+			"ap-southeast-3" = "ami-0ab5e7f100ce4e4c6"
+			"ca-central-1" = "ami-089f86654452e24a7"
+			"eu-central-1" = "ami-060a60ef114e277cf"
+			"eu-north-1" = "ami-0343e1d6f5c38c8e5"
+			"eu-south-1" = "ami-08ab6d30e453c905e"
+			"eu-west-1" = "ami-0ab50818115be3fa6"
+			"eu-west-2" = "ami-09b541a0c048b9711"
+			"eu-west-3" = "ami-08a9d136ae67c7652"
+			"me-south-1" = "ami-050225090a851c7e1"
+			"sa-east-1" = "ami-090d57eccaddab08d"
+			"us-east-1" = "ami-09c6bdfcd183ec417"
+			"us-east-2" = "ami-0eece04e116429c4e"
+			"us-west-1" = "ami-0fd0c6e7532b76d8b"
+			"us-west-2" = "ami-0781a2341b75d73d3"
+			"us-gov-east-1" = "ami-0a45c9af885e6cd04"
+			"us-gov-west-1" = "ami-04f985e95a5350b39"
   }
 }
 
