@@ -14,14 +14,6 @@ resource "aws_instance" "hg_ec2" {
     volume_type = "gp3"
     encrypted = true
   }
-  ebs_block_device {
-
-    device_name = "/dev/sdc"
-    volume_size = var.data_volume_size
-    volume_type = "gp3"
-    encrypted = true
-    delete_on_termination = false
-  }
   metadata_options {
     http_endpoint = "enabled"
   }
