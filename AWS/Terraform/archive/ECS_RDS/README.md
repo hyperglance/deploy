@@ -1,12 +1,12 @@
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/hyperglance/deploy/master/files/hyperglance_logo_dark.svg">
-  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/hyperglance/deploy/master/files/hyperglance_logo_dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/hyperglance/deploy/master/files/hyperglance_logo_light.svg">
   <img alt="Hyperglance logo" src="https://raw.githubusercontent.com/hyperglance/deploy/master/files/hyperglance_logo_dark.svg">
 </picture>
 
-> **_NOTE:_**  The ECS-based deployments are not regularly maintained. As such you may experience issues when using them. We hope this will serve as an example for your own IaC efforts and if you are not able to resolve any problems yourself feel free to reach out to our support desk. For the best experience we recommend you use an actively maintained deployment option, see: [EC2](../EC2) or our [Helm chart](https://github.com/hyperglance/helm-chart) which supports EKS and other k8s distributions.
-
 # Hyperglance deployment
+
+> **_NOTE:_**  The ECS-based deployments are not regularly maintained. As such you may experience issues when using them. We hope this will serve as an example for your own IaC efforts and if you are not able to resolve any problems yourself feel free to reach out to our support desk. For the best experience we recommend you use an actively maintained deployment option, see: [EC2](../EC2) or our [Helm chart](https://github.com/hyperglance/helm-chart) which supports EKS and other k8s distributions.
 
 > Enable Hyperglance to automate, fix and optimize your cloud.
 
@@ -15,7 +15,7 @@ This repository contains Terraform configurations, that deploy an ECS cluster ba
 ## Pre-Requisites
 
 Before you can deploy, you will need:
-1. Terraform CLI - [Install instructions](https://learn.hashicorp.com/tutorials/terraform/install-cli)
+1. Terraform CLI - [Install instructions](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
 2. AWS CLI - [Install instructions](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)
 3. Configure AWS CLI to have a valid login for the account you wish to deploy to - [AWS quick start](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html)
 
@@ -28,16 +28,16 @@ Before you can deploy, you will need:
 	 git clone https://github.com/hyperglance/deploy.git
 	```
 
-4.  Navigate to the terraform deployment directory 
-	
-	```
+3.  Navigate to the terraform deployment directory
+
+	```bash
 	cd deploy/AWS/Terraform/ECS_RDS
     ```
 
-5. Edit the [myvars.tfvars](myvars.tfvars) file included in this directory and populate your variables accordingly
- 
-6. Deploy the stack:
-	```
+4. Edit the [myvars.tfvars](myvars.tfvars) file included in this directory and populate your variables accordingly
+
+5. Deploy the stack:
+	```bash
 	 terraform init
 	 terraform apply -var-file=myvars.tfvars
 	```
@@ -76,4 +76,5 @@ You can find a wealth of support documents, FAQs and guides on our [website](htt
 If something isn't right or you need further support, [log a ticket](https://support.hyperglance.com/knowledge/kb-tickets/new) with us and we'll be in touch to assist you.
 
 ## Contributions
+
 Are welcome!

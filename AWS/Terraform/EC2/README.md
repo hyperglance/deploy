@@ -1,37 +1,36 @@
-<img src="https://github.com/hyperglance/deploy/blob/master/files/b5dfbb6c-75c8-493b-8c5d-d68b3272cf0f.png" alt="Hyperglance Logo" />
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/hyperglance/deploy/master/files/hyperglance_logo_dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/hyperglance/deploy/master/files/hyperglance_logo_light.svg">
+  <img alt="Hyperglance logo" src="https://raw.githubusercontent.com/hyperglance/deploy/master/files/hyperglance_logo_dark.svg">
+</picture>
 
-# Hyperglance deployment
+# Deploy Hyperglance to AWS EC2 [Terraform]
 
-> Enable Hyperglance to automate, fix and optimize your cloud.
+This Terraform template deploys Hyperglance as an AWS EC2 Instance.
+> See also the equivalent CloudFormation [template](../EC2).
 
-This repository contains Terraform configurations, that deploy an EC2 instance with Hyperglance pre-installed. Giving you the power to automate your cloud and fix configuration issues quickly & easily.
+## Deploy via Terraform CLI
 
-## Pre-Requisites
+1. Ensure you have the necessary CLI tools installed and configured:
+    * Terraform CLI - [Install instructions](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
+    * AWS CLI - [Install instructions](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)
+    * Configure AWS CLI to have a valid login for the account you wish to deploy to - [See CLI quickstart](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html)
 
-Before you can deploy, you will need:
-1. Terraform CLI - [Install instructions](https://learn.hashicorp.com/tutorials/terraform/install-cli)
-2. AWS CLI - [Install instructions](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)
-3. Configure AWS CLI to have a valid login for the account you wish to deploy to - [AWS quick start](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html)
-
-## Quick Start
-
-1. Follow the pre-requisite steps above.
-
-2. Clone our repo or [download the zip](https://github.com/hyperglance/deploy/archive/refs/heads/master.zip)
+2. Clone the repo or [download the zip](https://github.com/hyperglance/deploy/archive/refs/heads/master.zip)
 	```bash
 	 git clone https://github.com/hyperglance/deploy.git
 	```
 
-4.  Navigate to the terraform deployment directory 
-	
-	```
+3.  Navigate to the **EC2** deployment directory
+
+	```bash
 	cd deploy/AWS/Terraform/EC2
     ```
 
-5. Edit the [myvars.tfvars](myvars.tfvars) file included in this directory and populate your variables accordingly
- 
-6. Deploy the stack:
-	```
+4. Edit the [myvars.tfvars](myvars.tfvars) file included in this directory and populate your variables accordingly
+
+5. Deploy the stack:
+	```bash
 	 terraform init
 	 terraform apply -var-file=myvars.tfvars
 	```
@@ -42,31 +41,24 @@ Before you can deploy, you will need:
     instance_id          = "<password>"
     private_dns          = "https://<private_dns>"
     private_ip           = "https://<private_ip>"
-    public_dns           = "https://public_dns>"
+    public_dns           = "https://<public_dns>"
     public_ip            = "https://<public_ip>"
 	```
- 
-   *Please allow upto 5 minutes for the EC2 instance to initialize before accessing the instance*
+
+   *Please allow up to 5 minutes for the EC2 instance to initialize before accessing the instance*
 
 
-__That's it - Hyperglance is now deployed in your environment and ready for configuration!__
+__That's it - Hyperglance is now deployed in your environment!__
 
-## Login
+## Log In And Activation
+Visit: `https://IP_OF_YOUR_EC2_INSTANCE`
 
-Login using the Instance ID of the EC2 Instance hosting Hyperglance. Default credentials:
+At the login screen the default login user details are:
+* Username: `admin`
+* Password: The instance-id of the instance e.g.  `i-0b22a22eec53b9321`
 
-Username: admin  
-Password: <Instance_ID>
+Follow the on-screen prompts to accept the EULA and activate the product with a commercial license key or start a trial.
 
-__It is highly recommended you [change the password](https://support.hyperglance.com/knowledge/how-to-change-hyperglance-login-password) once you login.__
+## Connecting Accounts
 
-* Follow our guide [here](https://support.hyperglance.com/knowledge/how-to-apply-a-new-license) to apply your license
-* Follow our guide [here](https://support.hyperglance.com/knowledge/adding-new-aws-accounts-to-hyperglance) to add your first AWS account
-
-## Questions
-
-You can find a wealth of support documents, FAQs and guides on our [website](https://support.hyperglance.com).<br />
-If something isn't right or you need further support, [log a ticket](https://support.hyperglance.com/knowledge/kb-tickets/new) with us and we'll be in touch to assist you.
-
-## Contributions
-Are welcome!
+This repository has an [IAM Role Template](../XAccount) you can deploy that grants all the permissions required to add an account to Hyperglance.  Follow the [online guide](https://support.hyperglance.com/knowledge/adding-new-aws-accounts-to-hyperglance) for more details.
