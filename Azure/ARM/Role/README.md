@@ -41,6 +41,38 @@ This ARM template deploys a custom read-only role for Hyperglance at subscriptio
     ```
 
     *Please allow 1-2 minutes for the role to be created*
+    
+## [Optional] Azure Entra access monitoring
+
+Hyperglance has rulesets that help improve your entra security such as monitoring for old passwords.  To enable this you must grant the app-registration permissions against the the Microsoft Graph API.  Since this cannot be done with an ARM template we have provided a script `grant-graph-permissions.sh`.
+
+The login you use must have **Global Administrator** or **Privileged Role Administrator** role in order to grant admin consent.
+
+Run **one** of the following:
+
+**PowerShell** (requires Azure CLI and the `Az` PowerShell module):
+```powershell
+Connect-AzAccount
+.\grant-graph-permissions.ps1 -AppId <app-registration-client-id>
+```
+
+**Bash** (requires Azure CLI and `jq`):
+```bash
+az login
+./grant-graph-permissions.sh --app-id <app-registration-client-id>
+```
+
+This grants the following Microsoft Graph application permissions and performs tenant-wide admin consent:
+
+| Permission | Purpose |
+|---|---|
+| `Application.Read.All` | List app registrations |
+| `Directory.Read.All` | Resolve users, groups and service principals |
+| `AuditLog.Read.All` | Read sign-in logs (requires Azure AD Premium P1 or P2) |
+| `UserAuthenticationMethod.Read.All` | Check MFA registration status |
+| `User.Read.All` | Read password change dates |
+
+> **Note:** Sign-in log data (`AuditLog.Read.All`) is only available on Azure AD Premium P1 or P2 tenants. Hyperglance will work without it — sign-in fields will simply be blank.
 
 ## Next Steps
 
