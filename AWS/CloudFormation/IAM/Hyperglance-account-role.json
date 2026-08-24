@@ -1,0 +1,131 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "Creates the HyperglanceReadOnly IAM role for any AWS account that Hyperglance connects to directly — a single standalone account or an AWS Organizations management account. Grants read-only inventory access, Organizations read permissions (harmless on accounts not in an org), and sts:AssumeRole into member accounts. For AWS Organizations deployments, also deploy Hyperglance-member-account-role.json into each member account via StackSets.",
+    "Parameters": {
+        "HyperglancePrincipalARN": {
+            "Description": "ARN of the IAM principal that may assume this role. For AWS-hosted Hyperglance this is the ARN of the EC2 instance role. For externally-hosted Hyperglance this is the ARN of the HyperglanceUser IAM user created by Hyperglance-user.json.",
+            "Type": "String",
+            "AllowedPattern": "^arn:.+"
+        }
+    },
+    "Resources": {
+        "HyperglanceReadOnlyRole": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+                "RoleName": "HyperglanceReadOnly",
+                "AssumeRolePolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Effect": "Allow",
+                            "Principal": {
+                                "AWS": {
+                                    "Fn::Sub": "${HyperglancePrincipalARN}"
+                                }
+                            },
+                            "Action": "sts:AssumeRole",
+                            "Condition": {}
+                        }
+                    ]
+                }
+            }
+        },
+        "HyperglanceReadOnlyPolicy": {
+            "Type": "AWS::IAM::Policy",
+            "Properties": {
+                "Roles": [
+                    {
+                        "Ref": "HyperglanceReadOnlyRole"
+                    }
+                ],
+                "PolicyName": "HyperglanceReadOnlyAccess",
+                "PolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Sid": "InventoryReadOnly",
+                            "Effect": "Allow",
+                            "Action": [
+                                "access-analyzer:List*",
+                                "apigateway:GET",
+                                "autoscaling:Describe*",
+                                "backup:ListProtectedResources",
+                                "ce:GetReservationCoverage",
+                                "ce:GetReservationUtilization",
+                                "ce:GetSavingsPlansCoverage",
+                                "ce:GetSavingsPlansPurchaseRecommendation",
+                                "ce:GetSavingsPlansUtilization",
+                                "cloudwatch:Describe*",
+                                "cloudwatch:GetMetricStatistics",
+                                "cloudwatch:ListMetrics",
+                                "cur:DescribeReportDefinitions",
+                                "dax:Describe*",
+                                "dax:ListTags",
+                                "dynamodb:Describe*",
+                                "dynamodb:ListTables",
+                                "dynamodb:ListTagsOfResource",
+                                "directconnect:Describe*",
+                                "ec2:Describe*",
+                                "ec2:Get*",
+                                "ec2:Search*",
+                                "ecs:Describe*",
+                                "ecs:List*",
+                                "eks:Describe*",
+                                "eks:List*",
+                                "elasticloadbalancing:Describe*",
+                                "iam:List*",
+                                "iam:Get*",
+                                "iam:GenerateCredentialReport",
+                                "lambda:List*",
+                                "ram:GetResourceShareAssociations",
+                                "redshift:Describe*",
+                                "redshift:List*",
+                                "rds:Describe*",
+                                "rds:ListTagsForResource",
+                                "route53:List*",
+                                "route53:Get*",
+                                "s3:Get*",
+                                "s3:ListAllMyBuckets",
+                                "s3:ListBucket",
+                                "savingsplans:DescribeSavingsPlans",
+                                "workspaces:Describe*",
+                                "sns:List*",
+                                "sns:Get*",
+                                "sqs:List*",
+                                "sqs:Get*",
+                                "pricing:GetProducts"
+                            ],
+                            "Resource": "*"
+                        },
+                        {
+                            "Sid": "OrganizationsReadOnly",
+                            "Effect": "Allow",
+                            "Action": [
+                                "organizations:Describe*",
+                                "organizations:List*"
+                            ],
+                            "Resource": "*"
+                        },
+                        {
+                            "Sid": "AssumeIntoMemberAccounts",
+                            "Effect": "Allow",
+                            "Action": "sts:AssumeRole",
+                            "Resource": "arn:*:iam::*:role/HyperglanceReadOnly",
+                            "Condition": {
+                                "StringEquals": {
+                                    "aws:ResourceOrgID": "${aws:PrincipalOrgID}"
+                                }
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    "Outputs": {
+        "HyperglancePrincipalARN": {
+            "Description": "ARN of the role created. For AWS Organizations deployments, provide this as the HyperglancePrincipalARN parameter when deploying Hyperglance-member-account-role.json into each member account via StackSets.",
+            "Value": { "Fn::GetAtt": [ "HyperglanceReadOnlyRole", "Arn" ] }
+        }
+    }
+}

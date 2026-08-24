@@ -1,0 +1,77 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "Creates a minimal IAM role (HyperglanceCostBucket) allowing Hyperglance to read billing exports from a specific S3 bucket. Use this template when connecting an S3 cost source in Hyperglance — it does not grant inventory access to EC2, RDS, or other services.",
+    "Parameters": {
+        "HyperglancePrincipalARN": {
+            "Description": "ARN of the IAM principal that may assume this role. For AWS-hosted Hyperglance this is the ARN of the EC2 instance role. For externally-hosted Hyperglance (Azure, GCP, etc.) this is the ARN of the HyperglanceUser IAM user created by Hyperglance-user.json.",
+            "Type": "String",
+            "AllowedPattern": "^arn:.+"
+        },
+        "CostBucketName": {
+            "Description": "Name of the S3 bucket containing billing exports (e.g. my-cur-bucket). S3 permissions are scoped to this bucket only. To grant access to additional buckets, edit the HyperglanceCostBucket role policy in the IAM console after deployment and add further s3:ListBucket and s3:GetObject statements for each additional bucket.",
+            "Type": "String",
+            "AllowedPattern": "^[a-z0-9][a-z0-9\\-\\.]{1,61}[a-z0-9]$"
+        }
+    },
+    "Resources": {
+        "HyperglanceCostBucketRole": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+                "RoleName": "HyperglanceCostBucket",
+                "AssumeRolePolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Effect": "Allow",
+                            "Principal": {
+                                "AWS": {
+                                    "Fn::Sub": "${HyperglancePrincipalARN}"
+                                }
+                            },
+                            "Action": "sts:AssumeRole",
+                            "Condition": {}
+                        }
+                    ]
+                }
+            }
+        },
+        "HyperglanceCostBucketPolicy": {
+            "Type": "AWS::IAM::Policy",
+            "Properties": {
+                "Roles": [
+                    {
+                        "Ref": "HyperglanceCostBucketRole"
+                    }
+                ],
+                "PolicyName": "HyperglanceCostBucket",
+                "PolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Sid": "CostBucketList",
+                            "Effect": "Allow",
+                            "Action": "s3:ListBucket",
+                            "Resource": {
+                                "Fn::Sub": "arn:aws:s3:::${CostBucketName}"
+                            }
+                        },
+                        {
+                            "Sid": "CostBucketRead",
+                            "Effect": "Allow",
+                            "Action": "s3:GetObject",
+                            "Resource": {
+                                "Fn::Sub": "arn:aws:s3:::${CostBucketName}/*"
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    "Outputs": {
+        "HyperglanceCostBucketRole": {
+            "Description": "ARN of the role created",
+            "Value": { "Fn::GetAtt": [ "HyperglanceCostBucketRole", "Arn" ] }
+        }
+    }
+}

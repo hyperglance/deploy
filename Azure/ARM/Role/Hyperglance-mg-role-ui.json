@@ -1,0 +1,46 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/0.1.2-preview/CreateUIDefinition.MultiVm.json#",
+  "handler": "Microsoft.Azure.CreateUIDef",
+  "version": "0.1.2-preview",
+  "parameters": {
+    "config": {
+      "basics": {
+        "description": "![hyperglance](https://raw.githubusercontent.com/hyperglance/deploy/master/files/hyperglance_logo_light.svg)\n\nCreates the **Hyperglance_Inventory_Role_MG** custom role at management group scope.\n\n[Azure IAM requirements](https://support.hyperglance.com/knowledge/azure-iam-policy-requirements)"
+      }
+    },
+    "basics": [],
+    "steps": [
+      {
+        "name": "roleAssignment",
+        "label": "Role Assignment",
+        "elements": [
+          {
+            "name": "principalIdInfoBox",
+            "type": "Microsoft.Common.InfoBox",
+            "visible": true,
+            "options": {
+              "icon": "Info",
+              "text": "Enter the Object ID of the Service Principal associated with your Hyperglance App Registration to create both the role definition and the assignment in one step. Find it under Entra ID → Enterprise Applications → [your app] → Properties → Object ID.\n\nLeave blank to create only the role definition — you can assign it manually later.",
+              "uri": "https://support.hyperglance.com/knowledge/azure-iam-policy-requirements"
+            }
+          },
+          {
+            "name": "principalId",
+            "type": "Microsoft.Common.TextBox",
+            "label": "Service Principal Object ID",
+            "defaultValue": "",
+            "toolTip": "Object ID of the Service Principal (Enterprise Application) associated with your Hyperglance App Registration. Leave blank to create only the role definition.",
+            "constraints": {
+              "required": false,
+              "regex": "^$|^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$",
+              "validationMessage": "Must be a valid GUID (xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx) or left blank."
+            }
+          }
+        ]
+      }
+    ],
+    "outputs": {
+      "principalId": "[steps('roleAssignment').principalId]"
+    }
+  }
+}

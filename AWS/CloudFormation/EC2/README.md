@@ -61,5 +61,5 @@ Follow the on-screen prompts to accept the EULA and activate the product with a 
 
 ## Connecting Accounts
 
-This repository has an [IAM Role Template](../XAccount) you can deploy that grants all the permissions required to add an account to Hyperglance.  Follow the [online guide](https://support.hyperglance.com/knowledge/adding-new-aws-accounts-to-hyperglance) for more details.
+This repository has [IAM Role Templates](../IAM) you can deploy that grant the permissions required to add an account to Hyperglance.  Follow the [online guide](https://support.hyperglance.com/knowledge/adding-new-aws-accounts-to-hyperglance) for more details.
 

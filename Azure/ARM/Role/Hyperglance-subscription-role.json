@@ -1,0 +1,100 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+  "languageVersion": "2.0",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "_generator": {
+      "name": "bicep",
+      "version": "0.43.8.12551",
+      "templateHash": "7245035841335471333"
+    }
+  },
+  "functions": [
+    {
+      "namespace": "__bicep",
+      "members": {
+        "buildRoleAssignmentDescription": {
+          "parameters": [
+            {
+              "type": "string",
+              "name": "scopeLabel"
+            }
+          ],
+          "output": {
+            "type": "string",
+            "value": "[format('Hyperglance: read-only inventory access to this {0}', parameters('scopeLabel'))]"
+          },
+          "metadata": {
+            "__bicep_imported_from!": {
+              "sourceTemplate": "_role-shared.bicep"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "parameters": {
+    "principalId": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "Object ID of the Service Principal (Enterprise Application) associated with the App Registration. Required to create role assignments; omit to create the role definition only."
+      }
+    }
+  },
+  "variables": {
+    "roleName": "Hyperglance_Inventory_Role",
+    "roleDefName": "[guid(variables('roleName'))]",
+    "inventoryReadPermissions": [
+      {
+        "actions": [
+          "*/read"
+        ],
+        "notActions": [],
+        "dataActions": [],
+        "notDataActions": []
+      }
+    ]
+  },
+  "resources": {
+    "roleDef": {
+      "type": "Microsoft.Authorization/roleDefinitions",
+      "apiVersion": "2022-04-01",
+      "name": "[variables('roleDefName')]",
+      "properties": {
+        "roleName": "[variables('roleName')]",
+        "description": "Read-only inventory role for Hyperglance. Grants read access across all Azure resource types in this subscription. See https://support.hyperglance.com/knowledge/azure-iam-policy-requirements for more information.",
+        "type": "CustomRole",
+        "permissions": "[variables('inventoryReadPermissions')]",
+        "assignableScopes": [
+          "[subscription().id]"
+        ]
+      }
+    },
+    "inventoryAssignment": {
+      "condition": "[not(empty(parameters('principalId')))]",
+      "type": "Microsoft.Authorization/roleAssignments",
+      "apiVersion": "2022-04-01",
+      "name": "[guid(subscription().id, parameters('principalId'), subscriptionResourceId('Microsoft.Authorization/roleDefinitions', variables('roleDefName')))]",
+      "properties": {
+        "roleDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions', variables('roleDefName'))]",
+        "principalId": "[parameters('principalId')]",
+        "principalType": "ServicePrincipal",
+        "description": "[__bicep.buildRoleAssignmentDescription('subscription')]"
+      },
+      "dependsOn": [
+        "roleDef"
+      ]
+    }
+  },
+  "outputs": {
+    "roleDefinitionId": {
+      "type": "string",
+      "value": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions', variables('roleDefName'))]"
+    },
+    "roleAssignmentId": {
+      "type": "string",
+      "value": "[if(not(empty(parameters('principalId'))), subscriptionResourceId('Microsoft.Authorization/roleAssignments', guid(subscription().id, parameters('principalId'), subscriptionResourceId('Microsoft.Authorization/roleDefinitions', variables('roleDefName')))), '')]"
+    }
+  }
+}

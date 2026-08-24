@@ -37,11 +37,11 @@
 
 Hyperglance runs self-hosted in your enivironment.  Follow one of the guides to get started!
 
-| Platform | Method | Launch Template | Role Template | Guide |
-|----------|--------|-----------------|---------------|-------|
-| AWS | CloudFormation | [EC2](AWS/CloudFormation/EC2) | [XAccount Role](AWS/CloudFormation/XAccount) | [AWS guide](https://support.hyperglance.com/knowledge/deployment-guide-for-aws) |
-| AWS | Terraform | [EC2](AWS/Terraform/EC2) | [XAccount Role](AWS/Terraform/XAccount) | [AWS guide](https://support.hyperglance.com/knowledge/deployment-guide-for-aws) |
-| Azure | ARM / Bicep | [VM](Azure/ARM/VM) | [Role](Azure/ARM/Role) | [Azure guide](https://support.hyperglance.com/knowledge/deployment-guide-for-azure) |
+| Platform | Method | Launch Template | Role Templates | Guide |
+|----------|--------|-----------------|----------------|-------|
+| AWS | CloudFormation | [EC2](AWS/CloudFormation/EC2) | [Inventory / Org / Cost](AWS/CloudFormation/IAM) | [AWS guide](https://support.hyperglance.com/knowledge/deployment-guide-for-aws) |
+| AWS | Terraform | [EC2](AWS/Terraform/EC2) | — | [AWS guide](https://support.hyperglance.com/knowledge/deployment-guide-for-aws) |
+| Azure | ARM / Bicep | [VM](Azure/ARM/VM) | [Inventory / MG / Cost Export](Azure/ARM/Role) | [Azure guide](https://support.hyperglance.com/knowledge/deployment-guide-for-azure) |
 | GCP | Marketplace | — | — | [GCP guide](https://support.hyperglance.com/knowledge/how-to-set-up-hyperglance-via-the-gcp-marketplace) |
 | Kubernetes | Helm | — | — | [Helm chart repo](https://github.com/hyperglance/helm-chart) |
 | Linux | Installer (ansible) | — | — | [Install guide](https://support.hyperglance.com/knowledge/installing-hyperglance-on-your-own-instance-or-vm) |
@@ -54,7 +54,7 @@ Hyperglance runs self-hosted in your enivironment.  Follow one of the guides to 
 
 This repository hosts [CloudFormation](AWS/CloudFormation/EC2) and [Terraform](AWS/Terraform/EC2) deployment templates to launch a Hyperglance EC2 Instance.
 
-For cross-account role setup, see [CloudFormation XAccount](AWS/CloudFormation/XAccount) or [Terraform XAccount](AWS/Terraform/XAccount).
+For cross-account role setup, see [CloudFormation IAM Role Templates](AWS/CloudFormation/IAM) (single account, AWS Organizations, or S3 cost source).
 
 ---
 
@@ -62,7 +62,7 @@ For cross-account role setup, see [CloudFormation XAccount](AWS/CloudFormation/X
 
 [Follow our Azure deployment guide](https://support.hyperglance.com/knowledge/deployment-guide-for-azure) to launch Hyperglance as a VM.
 
-This repository hosts [ARM and Bicep](Azure/ARM/VM) deployment templates to launch a Hyperglance VM, and a [Role template](Azure/ARM/Role) for access configuration.
+This repository hosts [ARM and Bicep](Azure/ARM/VM) deployment templates to launch a Hyperglance VM, and [Role templates](Azure/ARM/Role) for subscription inventory, management group / tenant inventory, and billing export access.
 
 ---
 

@@ -1,0 +1,170 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "_generator": {
+      "name": "bicep",
+      "version": "0.43.8.12551",
+      "templateHash": "8741399031806938657"
+    }
+  },
+  "parameters": {
+    "principalId": {
+      "type": "string",
+      "metadata": {
+        "description": "Object ID of the App Registration (Service Principal) to grant access to the billing export container."
+      }
+    },
+    "storageAccountSubscriptionId": {
+      "type": "string",
+      "defaultValue": "[subscription().subscriptionId]",
+      "metadata": {
+        "description": "Subscription ID containing the storage account. Defaults to the subscription being deployed into."
+      }
+    },
+    "storageAccountResourceGroup": {
+      "type": "string",
+      "metadata": {
+        "description": "Resource group name containing the storage account."
+      }
+    },
+    "storageAccountName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the storage account that holds the billing exports."
+      }
+    },
+    "containerName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the container inside the storage account that holds the billing exports."
+      }
+    }
+  },
+  "variables": {
+    "roleName": "Hyperglance_Cost_Storage_Container_Role",
+    "roleDefName": "[guid(variables('roleName'))]"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Authorization/roleDefinitions",
+      "apiVersion": "2022-04-01",
+      "name": "[variables('roleDefName')]",
+      "properties": {
+        "roleName": "[variables('roleName')]",
+        "description": "Minimal role for Hyperglance to read Azure billing exports from blob storage. Grants read access to blob data only — no storage account key access. See https://support.hyperglance.com/knowledge/how-to-enable-cost-collection-in-azure for more information.",
+        "type": "CustomRole",
+        "permissions": [
+          {
+            "actions": [],
+            "notActions": [],
+            "dataActions": [
+              "Microsoft.Storage/storageAccounts/blobServices/containers/blobs/read"
+            ],
+            "notDataActions": []
+          }
+        ],
+        "assignableScopes": [
+          "[subscription().id]"
+        ]
+      }
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2025-04-01",
+      "name": "Hyperglance-container-role-assignment",
+      "subscriptionId": "[parameters('storageAccountSubscriptionId')]",
+      "resourceGroup": "[parameters('storageAccountResourceGroup')]",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "storageAccountName": {
+            "value": "[parameters('storageAccountName')]"
+          },
+          "containerName": {
+            "value": "[parameters('containerName')]"
+          },
+          "principalId": {
+            "value": "[parameters('principalId')]"
+          },
+          "roleDefinitionId": {
+            "value": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions', variables('roleDefName'))]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.43.8.12551",
+              "templateHash": "13450277447058984144"
+            }
+          },
+          "parameters": {
+            "storageAccountName": {
+              "type": "string",
+              "metadata": {
+                "description": "Name of the storage account that holds the billing exports."
+              }
+            },
+            "containerName": {
+              "type": "string",
+              "metadata": {
+                "description": "Name of the container inside the storage account that holds the billing exports."
+              }
+            },
+            "principalId": {
+              "type": "string",
+              "metadata": {
+                "description": "Object ID of the principal (App Registration) to assign the role to."
+              }
+            },
+            "roleDefinitionId": {
+              "type": "string",
+              "metadata": {
+                "description": "Resource ID of the role definition to assign."
+              }
+            }
+          },
+          "resources": [
+            {
+              "type": "Microsoft.Authorization/roleAssignments",
+              "apiVersion": "2022-04-01",
+              "scope": "[resourceId('Microsoft.Storage/storageAccounts/blobServices/containers', parameters('storageAccountName'), 'default', parameters('containerName'))]",
+              "name": "[guid(resourceId('Microsoft.Storage/storageAccounts/blobServices/containers', parameters('storageAccountName'), 'default', parameters('containerName')), parameters('principalId'), parameters('roleDefinitionId'))]",
+              "properties": {
+                "roleDefinitionId": "[parameters('roleDefinitionId')]",
+                "principalId": "[parameters('principalId')]",
+                "principalType": "ServicePrincipal",
+                "description": "Hyperglance: read access to billing export data in this container"
+              }
+            }
+          ],
+          "outputs": {
+            "roleAssignmentId": {
+              "type": "string",
+              "value": "[extensionResourceId(resourceId('Microsoft.Storage/storageAccounts/blobServices/containers', parameters('storageAccountName'), 'default', parameters('containerName')), 'Microsoft.Authorization/roleAssignments', guid(resourceId('Microsoft.Storage/storageAccounts/blobServices/containers', parameters('storageAccountName'), 'default', parameters('containerName')), parameters('principalId'), parameters('roleDefinitionId')))]"
+            }
+          }
+        }
+      },
+      "dependsOn": [
+        "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions', variables('roleDefName'))]"
+      ]
+    }
+  ],
+  "outputs": {
+    "roleDefinitionId": {
+      "type": "string",
+      "value": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions', variables('roleDefName'))]"
+    },
+    "roleAssignmentId": {
+      "type": "string",
+      "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', parameters('storageAccountSubscriptionId'), parameters('storageAccountResourceGroup')), 'Microsoft.Resources/deployments', 'Hyperglance-container-role-assignment'), '2025-04-01').outputs.roleAssignmentId.value]"
+    }
+  }
+}

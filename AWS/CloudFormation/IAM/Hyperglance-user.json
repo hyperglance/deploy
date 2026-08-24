@@ -1,0 +1,42 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "Creates an IAM user (HyperglanceUser) for use when Hyperglance is hosted outside AWS (e.g. on Azure or GCP). The user has no direct resource permissions — it may only assume the HyperglanceReadOnly and HyperglanceCostBucket roles in target accounts. Deploy this template once in any convenient account, then use the output ARN as the HyperglancePrincipalARN parameter when deploying the role templates in each target account. After deployment, create access keys for the user manually in the IAM console. Note: the sts:AssumeRole Resource below is intentionally left wildcarded across accounts (not restricted by aws:ResourceOrgID) because this user exists to assume roles in arbitrary, unrelated single AWS accounts that are not necessarily in one AWS Organization.",
+    "Resources": {
+        "HyperglanceUser": {
+            "Type": "AWS::IAM::User",
+            "Properties": {
+                "UserName": "HyperglanceUser"
+            }
+        },
+        "HyperglanceUserPolicy": {
+            "Type": "AWS::IAM::Policy",
+            "Properties": {
+                "Users": [
+                    {
+                        "Ref": "HyperglanceUser"
+                    }
+                ],
+                "PolicyName": "HyperglanceAssumeRoles",
+                "PolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Effect": "Allow",
+                            "Action": "sts:AssumeRole",
+                            "Resource": [
+                                "arn:*:iam::*:role/HyperglanceReadOnly",
+                                "arn:*:iam::*:role/HyperglanceCostBucket"
+                            ]
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    "Outputs": {
+        "HyperglanceUserARN": {
+            "Description": "ARN of the user created. Use this as the HyperglancePrincipalARN parameter when deploying the role templates in each target account. Then create access keys for this user in the IAM console.",
+            "Value": { "Fn::GetAtt": [ "HyperglanceUser", "Arn" ] }
+        }
+    }
+}
