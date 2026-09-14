@@ -5,7 +5,7 @@
   "parameters": {
     "config": {
       "basics": {
-        "description": "![hyperglance](https://raw.githubusercontent.com/hyperglance/deploy/master/files/hyperglance_logo_light.svg)\n\n[Click here to learn more about what infrastructure is being deployed by this template](https://support.hyperglance.com/knowledge/azure-deployment-architecture-diagram)"
+        "description": "![hyperglance](https://raw.githubusercontent.com/hyperglance/deploy/master/files/hyperglance_logo_dark.svg)\n\n[Click here to learn more about what infrastructure is being deployed by this template](https://support.hyperglance.com/knowledge/azure-deployment-architecture-diagram)"
       }
     },
     "basics": [

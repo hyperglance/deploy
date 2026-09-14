@@ -5,7 +5,7 @@
   "parameters": {
     "config": {
       "basics": {
-        "description": "![hyperglance](https://raw.githubusercontent.com/hyperglance/deploy/master/files/hyperglance_logo_light.svg)\n\nCreates the **Hyperglance_Inventory_Role** custom role at subscription scope.\n\n[Azure IAM requirements](https://support.hyperglance.com/knowledge/azure-iam-policy-requirements)"
+        "description": "![hyperglance](https://raw.githubusercontent.com/hyperglance/deploy/master/files/hyperglance_logo_dark.svg)\n\nCreates the **Hyperglance_Inventory_Role** custom role at subscription scope.\n\n[Azure IAM requirements](https://support.hyperglance.com/knowledge/azure-iam-policy-requirements)"
       }
     },
     "basics": [],
