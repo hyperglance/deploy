@@ -37,7 +37,6 @@ resource "aws_iam_policy" "hg_policy" {
           "cloudwatch:Describe*",
           "cloudwatch:GetMetricStatistics",
           "cloudwatch:ListMetrics",
-          "cur:DescribeReportDefinitions",
           "dax:Describe*",
           "dax:ListTags",
           "dynamodb:Describe*",

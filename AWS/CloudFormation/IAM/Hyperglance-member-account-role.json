@@ -58,7 +58,6 @@
                                 "cloudwatch:Describe*",
                                 "cloudwatch:GetMetricStatistics",
                                 "cloudwatch:ListMetrics",
-                                "cur:DescribeReportDefinitions",
                                 "dax:Describe*",
                                 "dax:ListTags",
                                 "dynamodb:Describe*",
