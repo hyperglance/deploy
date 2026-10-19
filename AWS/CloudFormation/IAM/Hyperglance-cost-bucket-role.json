@@ -8,7 +8,7 @@
             "AllowedPattern": "^arn:.+"
         },
         "CostBucketName": {
-            "Description": "Name of the S3 bucket containing billing exports (e.g. my-cur-bucket). S3 permissions are scoped to this bucket only. To grant access to additional buckets, edit the HyperglanceCostBucket role policy in the IAM console after deployment and add further s3:ListBucket and s3:GetObject statements for each additional bucket.",
+            "Description": "Name of the S3 bucket containing billing exports (e.g. my-cur-bucket). S3 permissions are scoped to this bucket only. To grant access to additional buckets, edit the HyperglanceCostBucket role policy in the IAM console after deployment and add further s3:ListBucket, s3:GetBucketLocation and s3:GetObject statements for each additional bucket.",
             "Type": "String",
             "AllowedPattern": "^[a-z0-9][a-z0-9\\-\\.]{1,61}[a-z0-9]$"
         }
@@ -50,7 +50,10 @@
                         {
                             "Sid": "CostBucketList",
                             "Effect": "Allow",
-                            "Action": "s3:ListBucket",
+                            "Action": [
+                                "s3:ListBucket",
+                                "s3:GetBucketLocation"
+                            ],
                             "Resource": {
                                 "Fn::Sub": "arn:aws:s3:::${CostBucketName}"
                             }

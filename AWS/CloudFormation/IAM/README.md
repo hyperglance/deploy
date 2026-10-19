@@ -89,11 +89,12 @@ aws cloudformation deploy \
 Creates the `HyperglanceCostBucket` IAM role with **only** the permissions needed to read billing exports from a specific S3 bucket:
 
 - `s3:ListBucket` — scoped to the named bucket
+- `s3:GetBucketLocation` — scoped to the named bucket (Hyperglance resolves the bucket's region before reading it)
 - `s3:GetObject` — scoped to objects in the named bucket
 
 This role does **not** grant access to EC2, RDS, networking services, or any other inventory data. Use it when connecting a cost source in Hyperglance without full account inventory. Deploy the role in the same account as the S3 bucket.
 
-To grant access to additional billing buckets after deployment, edit the `HyperglanceCostBucket` role policy in the IAM console and add further `s3:ListBucket` and `s3:GetObject` statements.
+To grant access to additional billing buckets after deployment, edit the `HyperglanceCostBucket` role policy in the IAM console and add further `s3:ListBucket`, `s3:GetBucketLocation` and `s3:GetObject` statements.
 
 ### Deploy via AWS Console
 
