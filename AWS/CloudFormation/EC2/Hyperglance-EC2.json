@@ -539,60 +539,15 @@
 			"Properties": {
 				"PolicyName": "Hyperglance",
 				"PolicyDocument": {
+					"Version": "2012-10-17",
 					"Statement": [
 						{
 							"Effect": "Allow",
-							"Action": [
-								"access-analyzer:List*",
-								"apigateway:GET",
-								"autoscaling:Describe*",
-								"backup:ListProtectedResources",
-								"cloudwatch:Describe*",
-								"cloudwatch:GetMetricStatistics",
-								"cloudwatch:ListMetrics",
-								"cur:DescribeReportDefinitions",
-								"dax:Describe*",
-								"dax:ListTags",
-								"dynamodb:Describe*",
-								"dynamodb:ListTables",
-								"dynamodb:ListTagsOfResource",
-								"directconnect:Describe*",
-								"ec2:Describe*",
-								"ec2:Get*",
-								"ec2:Search*",
-								"ecs:Describe*",
-								"ecs:List*",
-								"eks:Describe*",
-								"eks:List*",
-								"elasticloadbalancing:Describe*",
-								"iam:List*",
-								"iam:Get*",
-								"iam:GenerateCredentialReport",
-								"lambda:List*",
-								"ram:GetResourceShareAssociations",
-								"redshift:Describe*",
-								"redshift:List*",
-								"rds:Describe*",
-								"rds:ListTagsForResource",
-								"route53:List*",
-								"route53:Get*",
-								"s3:Get*",
-								"s3:ListAllMyBuckets",
-								"s3:ListBucket",
-								"sns:List*",
-								"sns:Get*",
-								"sqs:List*",
-								"sqs:Get*",
-								"sts:GetCallerIdentity",
-								"workspaces:Describe*",
-								"pricing:GetProducts"
-							],
-							"Resource": "*"
-						},
-						{
-							"Effect": "Allow",
 							"Action": "sts:AssumeRole",
-							"Resource": "arn:*:iam::*:role/HyperglanceReadOnly"
+							"Resource": [
+								"arn:*:iam::*:role/HyperglanceReadOnly",
+								"arn:*:iam::*:role/HyperglanceCostBucket"
+							]
 						}
 					]
 				},

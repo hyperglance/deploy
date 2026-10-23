@@ -55,7 +55,7 @@
                                 "s3:GetBucketLocation"
                             ],
                             "Resource": {
-                                "Fn::Sub": "arn:aws:s3:::${CostBucketName}"
+                                "Fn::Sub": "arn:${AWS::Partition}:s3:::${CostBucketName}"
                             }
                         },
                         {
@@ -63,7 +63,7 @@
                             "Effect": "Allow",
                             "Action": "s3:GetObject",
                             "Resource": {
-                                "Fn::Sub": "arn:aws:s3:::${CostBucketName}/*"
+                                "Fn::Sub": "arn:${AWS::Partition}:s3:::${CostBucketName}/*"
                             }
                         }
                     ]

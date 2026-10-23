@@ -29,57 +29,12 @@ resource "aws_iam_policy" "hg_policy" {
     Version = "2012-10-17"
     Statement = [
       {
-        Action = [
-          "access-analyzer:List*",
-          "apigateway:GET",
-          "autoscaling:Describe*",
-          "backup:ListProtectedResources",
-          "cloudwatch:Describe*",
-          "cloudwatch:GetMetricStatistics",
-          "cloudwatch:ListMetrics",
-          "dax:Describe*",
-          "dax:ListTags",
-          "dynamodb:Describe*",
-          "dynamodb:ListTables",
-          "dynamodb:ListTagsOfResource",
-          "directconnect:Describe*",
-          "ec2:Describe*",
-          "ec2:Get*",
-          "ec2:Search*",
-          "ecs:Describe*",
-          "ecs:List*",
-          "eks:Describe*",
-          "eks:List*",
-          "elasticloadbalancing:Describe*",
-          "iam:List*",
-          "iam:Get*",
-          "iam:GenerateCredentialReport",
-          "lambda:List*",
-          "ram:GetResourceShareAssociations",
-          "redshift:Describe*",
-          "redshift:List*",
-          "rds:Describe*",
-          "rds:ListTagsForResource",
-          "route53:List*",
-          "route53:Get*",
-          "s3:Get*",
-          "s3:ListAllMyBuckets",
-          "s3:ListBucket",
-          "sts:GetCallerIdentity",
-          "workspaces:Describe*",
-          "sns:List*",
-          "sns:Get*",
-          "sqs:List*",
-          "sqs:Get*",
-          "pricing:GetProducts"
-        ]
         Effect   = "Allow"
-        Resource = "*"
-      },
-      {
-        Effect = "Allow"
-        Action = "sts:AssumeRole"
-        Resource = "arn:*:iam::*:role/HyperglanceReadOnly"
+        Action   = "sts:AssumeRole"
+        Resource = [
+          "arn:*:iam::*:role/HyperglanceReadOnly",
+          "arn:*:iam::*:role/HyperglanceCostBucket"
+        ]
       }
     ]
   })
